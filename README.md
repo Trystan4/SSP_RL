@@ -1,2 +1,4 @@
 # SSP_RL
-The stochastic shortest path problem and its solution by reinforcement learning
+
+This is a repository is related to the SSP problem and its resolutions through the use of RL algorithms.
+The goal is to create a simple GYM environment implementing several algorithms, which can be controlled and compared
