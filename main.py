@@ -1,6 +1,6 @@
 import numpy as np
 from numpy.core.numeric import rollaxis
-from GridWorld import *
+from GymEnvironment.GridWorld import *
 states_n = 16
 actions_n = 4
 Q = np.zeros([states_n, actions_n])
@@ -39,7 +39,7 @@ print("Score over time: " +  str(sum(cumul_reward_list[-100:])/100.0))
 
 game.reset()
 game.print()
-
+print(Q)
 plt.plot(cumul_reward_list[:10])
 plt.ylabel('Cumulative reward')
 plt.xlabel('Étape')
