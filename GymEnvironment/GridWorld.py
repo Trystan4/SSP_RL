@@ -1,6 +1,6 @@
 import random
 import matplotlib.pyplot as plt
-
+import numpy as np
 
 class Game:
     ACTION_UP = 0
@@ -136,3 +136,35 @@ class Game:
                     stri += "."
             stri += "\n"
         print(stri)
+
+    def q_learning(self,states_n,actions_n, lr, y, num_episodes):
+        Q = np.zeros([states_n, actions_n])
+
+        cumul_reward_list = []
+        actions_list = []
+        states_list = []
+        game = self(4, 4, 0) # 0.1 chance to go left or right instead of asked direction
+        for i in range(num_episodes):
+            actions = []
+            s = game.reset()
+            states = [s]
+            cumul_reward = 0
+            d = False
+            while True:
+                # probability to take a random action
+                Q2 = Q[s,:] + np.random.randn(1, actions_n)*(1. / (i +1))
+                a = np.argmax(Q2)
+                s1, reward, d, _ = game.move(a)
+                Q[s, a] = Q[s, a] + lr*(reward + y * np.max(Q[s1,:]) - Q[s, a]) # Fonction de mise à jour de la Q-table
+                cumul_reward += reward
+                s = s1
+                actions.append(a)
+                states.append(s)
+                if d == True:
+                    break
+            states_list.append(states)
+            actions_list.append(actions)
+            cumul_reward_list.append(cumul_reward)
+        game.reset()
+        game.print()
+        return Q, cumul_reward_list
