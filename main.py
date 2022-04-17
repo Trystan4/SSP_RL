@@ -1,4 +1,4 @@
-from gym_gridworld.envs.GridWorld import GridWorld4x4
+from Algorithms.GridWorld import GridWorld4x4
 import matplotlib.pyplot as plt
 states_n = 16
 actions_n = 4

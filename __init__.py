@@ -1,4 +1,4 @@
-from gym.envs.registration import make, register, registry, spec
+from gym.envs.registration import register
 
 # Hook to load plugins from entry points
 

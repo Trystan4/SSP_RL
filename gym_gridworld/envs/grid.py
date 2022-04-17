@@ -4,7 +4,7 @@ from os import path
 from typing import Optional
 import numpy as np
 from gym import Env, spaces, utils
-from gym.envs.toy_text.utils import categorical_sample
+from gym_gridworld.envs.utils import categorical_sample
 
 LEFT = 0
 DOWN = 1
