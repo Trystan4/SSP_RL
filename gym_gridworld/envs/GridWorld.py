@@ -2,7 +2,7 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 
-class Game:
+class GridWorld4x4:
     ACTION_UP = 0
     ACTION_LEFT = 1
     ACTION_DOWN = 2
@@ -137,25 +137,56 @@ class Game:
             stri += "\n"
         print(stri)
 
-    def q_learning(self,states_n,actions_n, lr, y, num_episodes):
+    def ChooseAction(self, Q,etat,espace,epsilon):
+        print(espace)
+        aOpt=np.argmax(np.random.shuffle(Q[etat]))
+        if (np.random.random() > epsilon):
+            return int(aOpt)
+        else:
+            action=random.sample(espace, 1)
+            while (action==aOpt):
+                action=random.sample(espace, 1)
+            return action[0]
+    
+    def q_learning(self,states_n,actions_n, beta, epsilon, num_episodes):
+        ' Tableau Q(s,a)'
         Q = np.zeros([states_n, actions_n])
+        ' Tableau N(s,a)'
+        N=np.zeros([states_n, actions_n])
 
         cumul_reward_list = []
-        actions_list = []
+        actions_list = [0,1,2,3]
         states_list = []
-        game = self(4, 4, 0) # 0.1 chance to go left or right instead of asked direction
+        grid = self(4, 4, 0) # 0.1 chance to go left or right instead of asked direction
         for i in range(num_episodes):
             actions = []
-            s = game.reset()
+            s = grid.reset()
             states = [s]
             cumul_reward = 0
             d = False
             while True:
-                # probability to take a random action
-                Q2 = Q[s,:] + np.random.randn(1, actions_n)*(1. / (i +1))
-                a = np.argmax(Q2)
-                s1, reward, d, _ = game.move(a)
-                Q[s, a] = Q[s, a] + lr*(reward + y * np.max(Q[s1,:]) - Q[s, a]) # Fonction de mise à jour de la Q-table
+                obsC=states
+                #print("Etat courant",obsC)
+                a= grid.ChooseAction( Q,obsC,actions_list,epsilon)
+                #print("action",a)
+                #print("Etat suivant",observation)
+
+                s1, reward, d, _ = grid.move(a)
+
+                ' mise a jour alpha'
+                N[obsC,a]=int(N[obsC,a]+1)
+                alpha=1/N[obsC,a]
+                ' recuperation action optimale'
+                aOpt=np.argmax(Q[obsC])
+                #print("action Optimale",aOpt)
+                ' mise a jour Q table'
+                Q[obsC,a]=(1-alpha)*Q[obsC,a]+ alpha*(reward +beta*Q[s1,aOpt])
+                
+                # # probability to take a random action
+                # Q2 = Q[s,:] + np.random.randn(1, actions_n)*(1. / (i +1))
+                # a = np.argmax(Q2)
+                # Q[s, a] = Q[s, a] + lr*(reward + y * np.max(Q[s1,:]) - Q[s, a]) # Fonction de mise à jour de la Q-table
+
                 cumul_reward += reward
                 s = s1
                 actions.append(a)
@@ -165,6 +196,15 @@ class Game:
             states_list.append(states)
             actions_list.append(actions)
             cumul_reward_list.append(cumul_reward)
-        game.reset()
-        game.print()
+            print(Q)
+
+            print("Construction de la politique")
+            pi=np.zeros(states_n)
+
+            for i in range(states_n):
+                pi[i]=int(np.argmax(Q[i]))
+
+            print("politique=",pi)    
+        grid.reset()
+        grid.print()
         return Q, cumul_reward_list
