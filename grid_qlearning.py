@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Apr 27 12:12:53 2021
-
-@author: ehyon
-"""
-
 import gym
 import numpy as np
 
@@ -21,7 +13,7 @@ def ChooseAction(Q,etat,espace,epsilon):
     
 gym.envs.register(
     id="GridWorld-v0",
-    entry_point="gym_gridworld.envs:GridEnv",
+    entry_point="all_envs.gym_gridworld.envs:GridEnv",
     kwargs={"map_name": "4x4"},
     max_episode_steps=100,
     reward_threshold=0.74,  # optimum = 0.74
