@@ -14,5 +14,5 @@ Add Qlearning algorithm, display Q-Table and mean reward.
 ```Bash
 git clone https://github.com/Trystan4/SSP_RL.git
 cd SSP_RL
-py main.py
+py grid_qlearning.py
 ```
