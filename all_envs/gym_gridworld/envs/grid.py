@@ -10,21 +10,31 @@ LEFT = 0
 DOWN = 1
 RIGHT = 2
 UP = 3
-
+"""
+S -> start
+P -> path
+W -> wall
+G -> goal
+    """
 MAPS = {
-    "4x4": ["SFFF", "FHFH", "FFFH", "HFFG"],
+    "4x4": ["SPPP", "PWPW", "PPPW", "WG"],
     "8x8": [
-        "SFFFFFFF",
-        "FFFFFFFF",
-        "FFFHFFFF",
-        "FFFFFHFF",
-        "FFFHFFFF",
-        "FHHFFFHF",
-        "FHFFHFHF",
-        "FFFHFFFG",
+        "SPPPPPPP",
+        "PPPPPPPP",
+        "PPPWPPPP",
+        "PPPPPWPP",
+        "PPPWPPPP",
+        "PWWPPPWP",
+        "PWPPWPWP",
+        "PPPWPPPG",
     ],
 }
 
+
+"""Generates a random valid map (one that has a path from start to goal)
+    :param size: size of each side of the grid
+    :param p: probability that a tile is path
+    """
 
 def generate_random_map(size=8, p=0.8):
     valid = False
@@ -45,18 +55,17 @@ def generate_random_map(size=8, p=0.8):
                         continue
                     if res[r_new][c_new] == "G":
                         return True
-                    if res[r_new][c_new] != "H":
+                    if res[r_new][c_new] != "W":
                         frontier.append((r_new, c_new))
         return False
 
     while not valid:
         p = min(1, p)
-        res = np.random.choice(["F", "H"], (size, size), p=[p, 1 - p])
+        res = np.random.choice(["P", "W"], (size, size), p=[p, 1 - p])
         res[0][0] = "S"
         res[-1][-1] = "G"
         valid = is_valid(res)
     return ["".join(x) for x in res]
-
 
 class GridEnv(Env):
 
@@ -97,7 +106,7 @@ class GridEnv(Env):
             newrow, newcol = inc(row, col, action)
             newstate = to_s(newrow, newcol)
             newletter = desc[newrow, newcol]
-            done = bytes(newletter) in b"GH"
+            done = bytes(newletter) in b"GW"
             reward = float(newletter == b"G")
             return newstate, reward, done
 
@@ -107,7 +116,7 @@ class GridEnv(Env):
                 for a in range(4):
                     li = self.P[s][a]
                     letter = desc[row, col]
-                    if letter in b"GH":
+                    if letter in b"GW":
                         li.append((1.0, s, 0, True))
                     else:
                         if is_slippery:

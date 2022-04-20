@@ -1,6 +1,14 @@
 import gym
 import numpy as np
 
+
+# Actions in GridWorld environnment :
+# LEFT = 0
+# DOWN = 1
+# RIGHT = 2
+# UP = 3
+
+
 def ChooseAction(Q,etat,espace,epsilon):
     aOpt=np.argmax(np.random.shuffle(Q[etat]))
     if (np.random.random() > epsilon):
@@ -43,7 +51,7 @@ while (episode < 10000):
         obsC=observation
         #print("Etat courant",obsC)
         a=ChooseAction(Q,obsC,AS,epsilon)
-        #print("action",a)
+        print("action",a)
         (observation,gain,termine,debug)=environ.step(a)
         #print("Etat suivant",observation)
         ' mise a jour alpha'
