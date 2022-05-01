@@ -62,13 +62,10 @@ while (episode < 10000):
         #print("action Optimale",aOpt)
         ' mise a jour Q table'
         Q[obsC,a]=(1-alpha)*Q[obsC,a]+ alpha*(gain +beta*Q[observation,aOpt])
-        #print("terminee",termine)
-        #environ.render()
-        #print(" ")
     #print("fin de l'episode",episode)
 print("fin de la simulation")
 
-print("Q table")
+print("Q table Q Learning")
 print(Q)
 
 print("Construction de la politique")
