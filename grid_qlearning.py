@@ -21,10 +21,10 @@ def ChooseAction(Q,etat,espace,epsilon):
     
 gym.envs.register(
     id="GridWorld-v0",
-    entry_point="all_envs.gym_gridworld.envs:GridEnv",
+    entry_point="all_envs.gym_gridworld.envs.grid:GridEnv",
     kwargs={"map_name": "4x4"},
     max_episode_steps=100,
-    reward_threshold=0.74,  # optimum = 0.74
+    reward_threshold=0.70,  # optimum = 0.74
 )
 environ= gym.make("GridWorld-v0")
 beta=0.5
