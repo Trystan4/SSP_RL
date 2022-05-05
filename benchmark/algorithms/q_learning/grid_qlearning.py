@@ -1,6 +1,6 @@
 import gym
 import numpy as np
-
+import matplotlib.pyplot as plt
 
 # Actions in GridWorld environnment :
 # LEFT = 0
@@ -19,14 +19,15 @@ def ChooseAction(Q,etat,espace,epsilon):
            action=espace.sample()
        return int(action)
     
-gym.envs.register(
-    id="GridWorld-v0",
-    entry_point="all_envs.gym_gridworld.envs:GridEnv",
-    kwargs={"map_name": "4x4"},
-    max_episode_steps=100,
-    reward_threshold=0.74,  # optimum = 0.74
-)
-environ= gym.make("GridWorld-v0")
+# gym.envs.register(
+#     id="GridWorld-v0",
+#     entry_point="all_envs.gym_gridworld.envs:GridEnv",
+#     kwargs={"map_name": "4x4"},
+#     max_episode_steps=100,
+#     reward_threshold=0.74,  # optimum = 0.74
+# )
+# environ= gym.make("GridWorld-v0")
+environ= gym.make("FrozenLake-v1")
 beta=0.5
 
 
@@ -38,7 +39,7 @@ Q=np.zeros((environ.observation_space.n,environ.action_space.n))
 ' Tableau N(s,a)'
 N=np.zeros((environ.observation_space.n,environ.action_space.n))
 
-
+rewards=[]
 episode=0
 epsilon=0.5
 
@@ -62,6 +63,9 @@ while (episode < 10000):
         #print("action Optimale",aOpt)
         ' mise a jour Q table'
         Q[obsC,a]=(1-alpha)*Q[obsC,a]+ alpha*(gain +beta*Q[observation,aOpt])
+        
+        # tableau des gains au fur et à mesure des épisodes
+        rewards.append(gain)
     #print("fin de l'episode",episode)
 print("fin de la simulation")
 
@@ -75,5 +79,6 @@ for i in range(environ.observation_space.n):
     pi[i]=int(np.argmax(Q[i]))
 
 print("politique=",pi)    
-    
-    
+
+plt.plot(rewards[:100])
+plt.show()

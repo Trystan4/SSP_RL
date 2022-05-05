@@ -1,6 +1,6 @@
 import numpy as np
 import gym
-
+import matplotlib.pyplot as plt
 #Building the environment
 
 # gym.envs.register(
@@ -41,7 +41,7 @@ def update(state, state2, reward, action, action2):
 
 #Initializing the reward
 reward=0
-
+rewards = []
 #Starting the SARSA learning
 for episode in range(total_episodes):
     t = 0
@@ -54,7 +54,8 @@ for episode in range(total_episodes):
     while t < max_steps: 
         #Getting next state
         state2, reward, done, info = env.step(action1)
-        
+        # Array for rewards in time (for each episode)
+        rewards.append(reward)
         #Choosing the next action
         action2 = choose_action(state2)
         print("next action", action2)
@@ -76,3 +77,6 @@ print("Performance : ", reward/total_episodes)
 
 #Visualizing the Q-matrix
 print(Q)
+
+plt.plot(rewards[:100])
+plt.show()
