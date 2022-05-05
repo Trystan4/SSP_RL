@@ -19,15 +19,16 @@ def ChooseAction(Q,etat,espace,epsilon):
            action=espace.sample()
        return int(action)
     
-gym.envs.register(
-    id="GridWorld-v0",
-    entry_point="all_envs.gym_gridworld.envs:GridEnv",
-    kwargs={"map_name": "4x4"},
-    max_episode_steps=100,
-    reward_threshold=0.74,  # optimum = 0.74
-)
-environ= gym.make("GridWorld-v0")
-beta=0.5
+# gym.envs.register(
+#     id="GridWorld-v0",
+#     entry_point="all_envs.gym_gridworld.envs:GridEnv",
+#     kwargs={"map_name": "4x4"},
+#     max_episode_steps=100,
+#     reward_threshold=0.74,  # optimum = 0.74
+# )
+# environ= gym.make("GridWorld-v0")
+environ = gym.make("FrozenLake-v1")
+
 
 
 AS=environ.action_space
@@ -40,7 +41,8 @@ N=np.zeros((environ.observation_space.n,environ.action_space.n))
 
 
 episode=0
-epsilon=0.5
+epsilon=0.9
+beta=0.5
 
 while (episode < 10000):
     observation=environ.reset()
