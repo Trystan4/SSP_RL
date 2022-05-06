@@ -13,7 +13,7 @@ class Qlearning():
         # if(environnement == "GridWorld-v0"):
         #     gym.envs.register(
         #         id=environnemen,
-        #         entry_point="all_envs.gym_gridworld.envs:GridEnv",
+        #         entry_point="all_envs.gym_gridworld:GridEnv",
         #         kwargs={"map_name": "4x4"},
         #         max_episode_steps=100,
         #         reward_threshold=0.74,  # optimum = 0.74
