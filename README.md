@@ -12,11 +12,11 @@ Reproduce Gym Env for a 4x4 (or 8x8) GridWorld with all the particularities of a
 
 Here are all the algorithms planned with the envs that can be used for now (FrozenLake mean that all implemented gym type environments work).
 
-Sarsa : Grid ✘ - FrozenLake ✔
-Q Learning : Grid ✘ - FrozenLake  ✔
-Reinforce : Grid ✘ - FrozenLake ✘
-DQN : Grid ✘ - FrozenLake ✘
-MDP : Grid ✘ - FrozenLake ✘
+Sarsa : Grid ✘ - FrozenLake ✔  
+Q Learning : Grid ✘ - FrozenLake  ✔  
+Reinforce : Grid ✘ - FrozenLake ✘  
+DQN : Grid ✘ - FrozenLake ✘  
+MDP : Grid ✘ - FrozenLake ✘  
 
 ## Benchmark
 
