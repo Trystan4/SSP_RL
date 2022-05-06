@@ -1,82 +1,91 @@
 import numpy as np
 import gym
 import matplotlib.pyplot as plt
-#Building the environment
 
-# gym.envs.register(
-#     id="GridWorld-v0",
-#     entry_point="all_envs.gym_gridworld.envs:GridEnv",
-#     kwargs={"map_name": "4x4"},
-#     max_episode_steps=100,
-#     reward_threshold=0.74,  # optimum = 0.74
-# )
-# environ= gym.make("GridWorld-v0")
 
-env = gym.make('FrozenLake-v1')
+class sarsa():
+    def __init__(self, environnement, epsilon, total_episodes, max_steps, alpha, gamma):
+        #Building the environment
+        # gym.envs.register(
+        #     id="GridWorld-v0",
+        #     entry_point="all_envs.gym_gridworld.envs:GridEnv",
+        #     kwargs={"map_name": "4x4"},
+        #     max_episode_steps=100,
+        #     reward_threshold=0.74,  # optimum = 0.74
+        # )
+        # environ= gym.make("GridWorld-v0")
+        self.env = gym.make(environnement)
 
-#Defining the different parameters
-epsilon = 0.9
-total_episodes = 10000
-max_steps = 100
-alpha = 0.85
-gamma = 0.95
-
-#Initializing the Q-matrix
-Q = np.zeros((env.observation_space.n, env.action_space.n))
-
-#Function to choose the next action
-def choose_action(state):
-	action=0
-	if np.random.uniform(0, 1) < epsilon:
-		action = env.action_space.sample()
-	else:
-		action = np.argmax(Q[state, :])
-	return action
-
-#Function to learn the Q-value
-def update(state, state2, reward, action, action2):
-	predict = Q[state, action]
-	target = reward + gamma * Q[state2, action2]
-	Q[state, action] = Q[state, action] + alpha * (target - predict)
-
-#Initializing the reward
-reward=0
-rewards = []
-#Starting the SARSA learning
-for episode in range(total_episodes):
-    t = 0
-    state1 = env.reset()
-    action1 = choose_action(state1)
-    print("------------------------")
-    print("début episode ", episode)
-    print("------------------------")
-    print("first action",action1)
-    while t < max_steps: 
-        #Getting next state
-        state2, reward, done, info = env.step(action1)
-        # Array for rewards in time (for each episode)
-        rewards.append(reward)
-        #Choosing the next action
-        action2 = choose_action(state2)
-        print("next action", action2)
+        #Defining the different parameters
+        self.epsilon = epsilon
+        self.total_episodes = total_episodes
+        self.max_steps = max_steps
+        self.alpha = alpha
+        self.gamma = gamma
         
-        #Learning Q-value
-        update(state1, state2, reward, action1, action2)
-        #action/state update for next step
-        state1 = state2
-        action1 = action2
+        #Initializing the Q-matrix
+        self.Q = np.zeros((self.env.observation_space.n, self.env.action_space.n))
         
-        #update respective values
-        t +=1
-        reward += 1
+        #Initializing the reward
+        self.rewards = []
         
-        if done:
-            break
-#Evaluating the performance
-print("Performance : ", reward/total_episodes)
+    #Function to choose the next action
+    def choose_action(self, state):
+        action=0
+        if np.random.uniform(0, 1) < self.epsilon:
+            action = self.env.action_space.sample()
+        else:
+            action = np.argmax(self.Q[state, :])
+        return action
+    
+    #Function to learn the Q-value
+    def update(self):
+        self.predict = self.Q[self.state1, self.action1]
+        self.target = self.reward + self.gamma * self.Q[self.state2, self.action2]
+        self.Q[self.state1, self.action1] = self.Q[self.state1, self.action1] + self.alpha * (self.target - self.predict)
+        
+    def algorithm(self):
+        self.reward=0
+        #Starting the SARSA learning
+        for episode in range(self.total_episodes):
+            self.t = 0
+            self.state1 = self.env.reset()
+            self.action1 = self.choose_action(self.state1)
+            print("------------------------")
+            print("début episode ", episode)
+            print("------------------------")
+            print("first action",self.action1)
+            while self.t < self.max_steps: 
+                #Getting next state
+                self.state2, self.reward, done, info = self.env.step(self.action1)
+                # print(info)
+                # Array for rewards in time (for each episode)
+                self.rewards.append(self.reward)
+                #Choosing the next action
+                self.action2 = self.choose_action(self.state2)
+                print("next action", self.action2)
+                
+                #Learning Q-value
+                self.update()
+                #action/state update for next step
+                self.state1 = self.state2
+                self.action1 = self.action2
+                
+                #update respective values
+                self.t +=1
+                self.reward += 1
+                
+                if done:
+                    break
+        #Evaluating the performance
+        self.perf = self.reward/self.total_episodes
+            
+        return self.Q, self.perf, self.rewards
+                
 
-#Visualizing the Q-matrix
-print(Q)
 
-plt.plot(rewards[:100])
-plt.show()
+
+
+
+
+
