@@ -2,6 +2,7 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 
+secure_random = random.SystemRandom()
 class GridWorld4x4:
     ACTION_UP = 0
     ACTION_LEFT = 1
@@ -40,13 +41,13 @@ class GridWorld4x4:
 
     def generate_game(self):
         cases = [(x, y) for x in range(self.n) for y in range(self.m)]
-        hole = random.choice(cases)
+        hole = secure_random.choice(cases)
         cases.remove(hole)
-        start = random.choice(cases)
+        start = secure_random.choice(cases)
         cases.remove(start)
-        end = random.choice(cases)
+        end = secure_random.choice(cases)
         cases.remove(end)
-        block = random.choice(cases)
+        block = secure_random.choice(cases)
         cases.remove(block)
 
         self.position = start
@@ -93,7 +94,7 @@ class GridWorld4x4:
             raise Exception("Invalid action")
 
         # random actions sometimes (2 times over 10 default)
-        choice = random.random()
+        choice = secure_random.random()
         if choice < self.wrong_action_p:
             action = (action + 1) % 4
         elif choice < 2 * self.wrong_action_p:
@@ -137,15 +138,15 @@ class GridWorld4x4:
             stri += "\n"
         print(stri)
 
-    def ChooseAction(self, Q,etat,espace,epsilon):
+    def choose_action(self, Q,etat,espace,epsilon):
         print(espace)
-        aOpt=np.argmax(np.random.shuffle(Q[etat]))
-        if (np.random.random() > epsilon):
-            return int(aOpt)
+        a_opt=np.argmax(secure_random.shuffle(Q[etat]))
+        if (secure_random.random() > epsilon):
+            return int(a_opt)
         else:
-            action=random.sample(espace, 1)
-            while (action==aOpt):
-                action=random.sample(espace, 1)
+            action=secure_random.sample(espace, 1)
+            while (action==a_opt):
+                action=secure_random.sample(espace, 1)
             return action[0]
     
     def q_learning(self,states_n,actions_n, beta, epsilon, num_episodes):
@@ -167,7 +168,7 @@ class GridWorld4x4:
             while True:
                 obsC=states
                 #print("Etat courant",obsC)
-                a= grid.ChooseAction( Q,obsC,actions_list,epsilon)
+                a= grid.choose_action( Q,obsC,actions_list,epsilon)
                 #print("action",a)
                 #print("Etat suivant",observation)
 
@@ -177,10 +178,10 @@ class GridWorld4x4:
                 N[obsC,a]=int(N[obsC,a]+1)
                 alpha=1/N[obsC,a]
                 ' recuperation action optimale'
-                aOpt=np.argmax(Q[obsC])
-                #print("action Optimale",aOpt)
+                a_opt=np.argmax(Q[obsC])
+                #print("action Optimale",a_opt)
                 ' mise a jour Q table'
-                Q[obsC,a]=(1-alpha)*Q[obsC,a]+ alpha*(reward +beta*Q[s1,aOpt])
+                Q[obsC,a]=(1-alpha)*Q[obsC,a]+ alpha*(reward +beta*Q[s1,a_opt])
                 
                 # # probability to take a random action
                 # Q2 = Q[s,:] + np.random.randn(1, actions_n)*(1. / (i +1))

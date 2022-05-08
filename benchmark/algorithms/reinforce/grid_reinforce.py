@@ -30,7 +30,7 @@ class ReinforceModel(nn.Module):
         return np.random.choice(ACTION_SPACE,p=a.squeeze(0).detach().cpu().numpy())
     
 
-env = gym.make("CartPole-v0")
+env = gym.make("FrozenLake-v1")
 
 model = ReinforceModel(2,4).to(DEVICE)
 
@@ -131,7 +131,6 @@ for step in range(500):
 
     # Save the image
     img = cv2.cvtColor(np.array(pil_im), cv2.COLOR_RGB2BGR)
-    # img = cv2.cvtColor(np.array(pil_im), cv2.COLOR_RGB2GRAY)
     im = plt.imshow(img, animated=True)
     ims.append([im])
 env.close()    

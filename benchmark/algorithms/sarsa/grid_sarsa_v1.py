@@ -6,14 +6,13 @@ import matplotlib.pyplot as plt
 
 class sarsa():
     def __init__(self, environnement, epsilon, total_episodes, max_steps, alpha, gamma):
-        if"GridWorld" in environnement:
-            #Building the environment
+        if "GridWorld" in environnement:
+            #Building the environment, optimum reward_t = 0.74
             register(
                 id=environnement,
                 entry_point="all_envs.gym_gridworld:GridWorld",
-                # kwargs={"map_name": "4x4"},
                 max_episode_steps=100,
-                reward_threshold=0.74,  # optimum = 0.74
+                reward_threshold=0.74,  
             )
             self.env = gym.make("GridWorld-v0")
         else:

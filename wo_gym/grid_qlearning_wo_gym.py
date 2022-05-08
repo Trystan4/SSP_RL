@@ -1,4 +1,4 @@
-from all_envs.gridworld_wo_gym.gridworld_wo_gym import GridWorld4x4
+from gridworld_wo_gym.gridworld_wo_gym import GridWorld4x4
 import matplotlib.pyplot as plt
 states_n = 16
 actions_n = 4

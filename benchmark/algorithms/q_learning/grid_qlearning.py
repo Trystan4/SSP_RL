@@ -1,6 +1,6 @@
 import gym
 import numpy as np
-
+from gym.envs.registration import register
 
 # Actions in GridWorld environnment :
 # LEFT = 0
@@ -10,17 +10,17 @@ import numpy as np
 
 class Qlearning():
     def __init__(self, environnement,beta,epsilon, max_episodes):
-        # if(environnement == "GridWorld-v0"):
-        #     gym.envs.register(
-        #         id=environnemen,
-        #         entry_point="all_envs.gym_gridworld:GridEnv",
-        #         kwargs={"map_name": "4x4"},
-        #         max_episode_steps=100,
-        #         reward_threshold=0.74,  # optimum = 0.74
-        #     )
-        #     environ= gym.make("GridWorld-v0")
-        # else :
-        self.environ = gym.make(environnement)
+        if "GridWorld" in environnement:
+            #Building the environment, optimum reward_t = 0.74
+            register(
+                id=environnement,
+                entry_point="all_envs.gym_gridworld:GridWorld",
+                max_episode_steps=100,
+                reward_threshold=0.74,  
+            )
+            self.envrion = gym.make("GridWorld-v0")
+        else:
+            self.environ = gym.make(environnement)
         self.beta = beta
         self.epsilon = epsilon
         self.max_e = max_episodes
