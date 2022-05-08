@@ -1,5 +1,6 @@
 # SSP_RL
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Trystan4_SSP_RL&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Trystan4_SSP_RL)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Trystan4_SSP_RL&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Trystan4_SSP_RL)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Trystan4_SSP_RL&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Trystan4_SSP_RL)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Trystan4_SSP_RL&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Trystan4_SSP_RL)
