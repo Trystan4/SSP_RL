@@ -9,7 +9,7 @@
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-orange.svg)](https://sonarcloud.io/summary/new_code?id=Trystan4_SSP_RL)
 
 
-This is a repository related to the SSP problem and its resolutions through the use of RL algorithms (with gym envs).
+This is a repository related to the Stochastic Shortest Path Problem and its resolutions through the use of RL algorithms (with gym envs).
 
 The goal is to create a simple benchmark implementing several algorithms, which can be controlled and compared for several gym environnments (including 1 created from scratch).
 
@@ -24,7 +24,7 @@ Here are all the algorithms planned with the envs that can be used for now (Froz
 Sarsa : Grid ✘ - FrozenLake ✔  
 Q Learning : Grid ✘ - FrozenLake  ✔  
 Reinforce : Grid ✘ - FrozenLake ✘  
-DQN : Grid ✘ - FrozenLake ✘  
+DQN : Grid ✘ - FrozenLake ✔  
 MDP : Grid ✘ - FrozenLake ✘  
 
 ## Benchmark
