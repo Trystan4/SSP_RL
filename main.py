@@ -3,6 +3,7 @@
 
 import matplotlib.pyplot as plt
 import sys
+
 from benchmark.algorithms.q_learning import grid_qlearning
 from benchmark.algorithms.sarsa import grid_sarsa_v1
 
@@ -30,9 +31,9 @@ def main():
         
         print("Q table Q Learning :\n", q_table)
         print("politique = ",pi)
-        # print("Gains :\n", rewards[:100])
-        # plt.plot(rewards)
-        # plt.show()
+        
+        plt.plot(rewards)
+        plt.show()
         
     elif(int(algo) == 1):
         total_episodes = int(input("Combien de fois voulez vous lancer l'environnement?\n"))
@@ -47,9 +48,9 @@ def main():
         #Visualizing the Q-matrix
         print("Q table Sarsa : \n",q_table)
         print("Performance :", performance)
-        # print("Gains :\n", rewards[:100])
-        # plt.plot(rewards)
-        # plt.show()
+        
+        plt.plot(rewards)
+        plt.show()
         
     elif(int(algo) == 2):
         print(NOT_IMPLEMENTED)

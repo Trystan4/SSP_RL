@@ -9,8 +9,8 @@ import numpy as np
 # UP = 3
 
 
-def choose_action(Q,etat,espace,epsilon):
-    a_opt=np.argmax(np.random.shuffle(Q[etat]))
+def choose_action(q_table,etat,espace,epsilon):
+    a_opt=np.argmax(np.random.shuffle(q_table[etat]))
     if (np.random.random() > epsilon):
         return int(a_opt)
     else:
@@ -19,14 +19,7 @@ def choose_action(Q,etat,espace,epsilon):
            action=espace.sample()
        return int(action)
     
-# gym.envs.register(
-#     id="GridWorld-v0",
-#     entry_point="all_envs.gym_gridworld.envs:GridEnv",
-#     kwargs={"map_name": "4x4"},
-#     max_episode_steps=100,
-#     reward_threshold=0.74,  # optimum = 0.74
-# )
-# environ= gym.make("GridWorld-v0")
+    
 environ = gym.make("FrozenLake-v1")
 
 
@@ -63,19 +56,19 @@ while (episode < 10000):
         a_opt=np.argmax(q_table[obsC])
         #print("action Optimale",a_opt)
         ' mise a jour q_table table pour sarsa'
-        q_table[obsC,a]= Q[obsC,a] + alpha * (gain + beta * (Q[observation,a_opt] - Q[obsC,a]))
+        q_table[obsC,a]= q_table[obsC,a] + alpha * (gain + beta * (q_table[observation,a_opt] - q_table[obsC,a]))
         
         #environ.render()
 print("fin de la simulation")
 
-print("Q table SARSA")
-print(Q)
+print("q_table table SARSA")
+print(q_table)
 
 print("Construction de la politique")
 pi=np.zeros(environ.observation_space.n)
 
 for i in range(environ.observation_space.n):
-    pi[i]=int(np.argmax(Q[i]))
+    pi[i]=int(np.argmax(q_table[i]))
 
 print("politique=",pi)    
     

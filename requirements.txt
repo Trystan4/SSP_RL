@@ -2,7 +2,6 @@ gym
 numpy 
 matplotlib
 contextlib2
-io
 typing
 stable-baselines3
 pytorch

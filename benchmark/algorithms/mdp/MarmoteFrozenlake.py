@@ -6,7 +6,7 @@
 
 """
 
-from pyMarmoteMDP import *
+import pyMarmoteMDP
 import time
 import gym
 import numpy as np

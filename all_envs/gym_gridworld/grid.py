@@ -46,7 +46,7 @@ def generate_random_map(size=8, p=0.8):
         frontier.append((0, 0))
         while frontier:
             r, c = frontier.pop()
-            if not (r, c) in discovered:
+            if (r, c) not in discovered:
                 discovered.add((r, c))
                 directions = [(1, 0), (0, 1), (-1, 0), (0, -1)]
                 for x, y in directions:
@@ -82,13 +82,13 @@ class GridEnv(Env):
         self.nrow, self.ncol = nrow, ncol = desc.shape
         self.reward_range = (0, 1)
 
-        nA = 4
-        nS = nrow * ncol
+        n_a = 4
+        n_s = nrow * ncol
 
         self.initial_state_distrib = np.array(desc == b"S").astype("float64").ravel()
         self.initial_state_distrib /= self.initial_state_distrib.sum()
 
-        self.P = {s: {a: [] for a in range(nA)} for s in range(nS)}
+        self.P = {s: {a: [] for a in range(n_a)} for s in range(n_s)}
 
         def to_s(row, col):
             return row * ncol + col
@@ -129,8 +129,8 @@ class GridEnv(Env):
                         else:
                             li.append((1.0, *update_probability_matrix(row, col, a)))
 
-        self.observation_space = spaces.Discrete(nS)
-        self.action_space = spaces.Discrete(nA)
+        self.observation_space = spaces.Discrete(n_s)
+        self.action_space = spaces.Discrete(n_a)
 
         # pygame utils
         self.window_size = (min(64 * ncol, 512), min(64 * nrow, 512))
