@@ -10,7 +10,7 @@ class sarsa():
             #Building the environment, optimum reward_t = 0.74
             register(
                 id=environnement,
-                entry_point="all_envs.gym_gridworld:GridWorld",
+                entry_point="all_envs.gym_gridworld:Gridworld",
                 max_episode_steps=100,
                 reward_threshold=0.74,  
             )

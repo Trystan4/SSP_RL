@@ -5,5 +5,5 @@ setup(name="gym_gridworld",
       url="https://github.com/Trystan4/SSP_RL",
       author="Trystan Roches",
       packages = ["all_envs.gym_gridworld.envs", "benchmark.algorithms", "wo_gym"],
-      install_requires = ["gym", "numpy", "matplotlib", "contextlib", "io", "typing", "stable-baselines3", "pytorch"]
+      install_requires = ["gym", "numpy", "matplotlib", "contextlib2", "typing", "stable-baselines3", "torch"]
 )

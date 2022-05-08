@@ -4,4 +4,4 @@ matplotlib
 contextlib2
 typing
 stable-baselines3
-pytorch
+torch
