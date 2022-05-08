@@ -1,5 +1,14 @@
 # SSP_RL
 
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Trystan4_SSP_RL&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Trystan4_SSP_RL)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Trystan4_SSP_RL&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Trystan4_SSP_RL)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Trystan4_SSP_RL&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Trystan4_SSP_RL)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Trystan4_SSP_RL&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=Trystan4_SSP_RL)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Trystan4_SSP_RL&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Trystan4_SSP_RL)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Trystan4_SSP_RL&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Trystan4_SSP_RL)
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-orange.svg)](https://sonarcloud.io/summary/new_code?id=Trystan4_SSP_RL)
+
+
 This is a repository related to the SSP problem and its resolutions through the use of RL algorithms (with gym envs).
 
 The goal is to create a simple benchmark implementing several algorithms, which can be controlled and compared for several gym environnments (including 1 created from scratch).

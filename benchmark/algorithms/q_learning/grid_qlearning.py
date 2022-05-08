@@ -35,12 +35,12 @@ class Qlearning():
         self.episode=0
         
     def choose_action(self, etat):
-        aOpt=np.argmax(np.random.shuffle(self.Q[etat]))
+        a_opt=np.argmax(np.random.shuffle(self.Q[etat]))
         if (np.random.random() > self.epsilon):
-            return int(aOpt)
+            return int(a_opt)
         else:
             action=self.AS.sample()
-        while (action==aOpt):
+        while (action==a_opt):
             action=self.AS.sample()
         return int(action)
     
@@ -61,10 +61,10 @@ class Qlearning():
                 self.N[obs_c,a]=int(self.N[obs_c,a]+1)
                 alpha=1/self.N[obs_c,a]
                 ' recuperation action optimale'
-                aOpt=np.argmax(self.Q[obs_c])
-                #print("action Optimale",aOpt)
+                a_opt=np.argmax(self.Q[obs_c])
+                #print("action Optimale",a_opt)
                 ' mise a jour Q table'
-                self.Q[obs_c,a]=(1-alpha)*self.Q[obs_c,a]+ alpha*(gain +self.beta*self.Q[observation,aOpt])
+                self.Q[obs_c,a]=(1-alpha)*self.Q[obs_c,a]+ alpha*(gain +self.beta*self.Q[observation,a_opt])
                 
                 # tableau des gains au fur et à mesure des épisodes
                 self.rewards.append(gain)

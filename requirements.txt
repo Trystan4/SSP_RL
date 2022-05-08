@@ -1,0 +1,8 @@
+gym
+numpy 
+matplotlib
+contextlib
+io
+typing
+stable-baselines3
+pytorch

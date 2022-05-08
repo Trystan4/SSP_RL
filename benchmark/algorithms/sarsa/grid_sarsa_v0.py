@@ -9,13 +9,13 @@ import numpy as np
 # UP = 3
 
 
-def ChooseAction(Q,etat,espace,epsilon):
-    aOpt=np.argmax(np.random.shuffle(Q[etat]))
+def choose_action(Q,etat,espace,epsilon):
+    a_opt=np.argmax(np.random.shuffle(Q[etat]))
     if (np.random.random() > epsilon):
-        return int(aOpt)
+        return int(a_opt)
     else:
        action=espace.sample()
-       while (action==aOpt):
+       while (action==a_opt):
            action=espace.sample()
        return int(action)
     
@@ -34,8 +34,8 @@ environ = gym.make("FrozenLake-v1")
 AS=environ.action_space
 observation=environ.reset()
 
-' Tableau Q(s,a)'
-Q=np.zeros((environ.observation_space.n,environ.action_space.n))
+' Tableau q_table(s,a)'
+q_table=np.zeros((environ.observation_space.n,environ.action_space.n))
 ' Tableau N(s,a)'
 N=np.zeros((environ.observation_space.n,environ.action_space.n))
 
@@ -52,7 +52,7 @@ while (episode < 10000):
     while (not termine):
         obsC=observation
         #print("Etat courant",obsC)
-        a=ChooseAction(Q,obsC,AS,epsilon)
+        a=choose_action(q_table,obsC,AS,epsilon)
         print("action",a)
         (observation,gain,termine,debug)=environ.step(a)
         #print("Etat suivant",observation)
@@ -60,10 +60,10 @@ while (episode < 10000):
         N[obsC,a]=int(N[obsC,a]+1)
         alpha=1/N[obsC,a]
         ' recuperation action optimale'
-        aOpt=np.argmax(Q[obsC])
-        #print("action Optimale",aOpt)
-        ' mise a jour Q table pour sarsa'
-        Q[obsC,a]= Q[obsC,a] + alpha * (gain + beta * (Q[observation,aOpt] - Q[obsC,a]))
+        a_opt=np.argmax(q_table[obsC])
+        #print("action Optimale",a_opt)
+        ' mise a jour q_table table pour sarsa'
+        q_table[obsC,a]= Q[obsC,a] + alpha * (gain + beta * (Q[observation,a_opt] - Q[obsC,a]))
         
         #environ.render()
 print("fin de la simulation")

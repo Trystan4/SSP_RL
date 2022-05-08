@@ -123,5 +123,4 @@ for i in range(20):
         gainFinal+=1
     else: 
         print("*****objectif NON atteint")
-print("Pourcentage de reussite:",gainFinal/20*100, "%")    
-
+print("Pourcentage de reussite:",gainFinal/20*100, "%")

@@ -1,20 +1,23 @@
 import numpy as np
 import gym
+from gym.envs.registration import register
 import matplotlib.pyplot as plt
 
 
 class sarsa():
     def __init__(self, environnement, epsilon, total_episodes, max_steps, alpha, gamma):
-        #Building the environment
-        # gym.envs.register(
-        #     id="GridWorld-v0",
-        #     entry_point="all_envs.gym_gridworld:GridEnv",
-        #     kwargs={"map_name": "4x4"},
-        #     max_episode_steps=100,
-        #     reward_threshold=0.74,  # optimum = 0.74
-        # )
-        # environ= gym.make("GridWorld-v0")
-        self.env = gym.make(environnement)
+        if"GridWorld" in environnement:
+            #Building the environment
+            register(
+                id=environnement,
+                entry_point="all_envs.gym_gridworld:GridWorld",
+                # kwargs={"map_name": "4x4"},
+                max_episode_steps=100,
+                reward_threshold=0.74,  # optimum = 0.74
+            )
+            self.env = gym.make("GridWorld-v0")
+        else:
+            self.env = gym.make(environnement)
 
         #Defining the different parameters
         self.epsilon = epsilon
