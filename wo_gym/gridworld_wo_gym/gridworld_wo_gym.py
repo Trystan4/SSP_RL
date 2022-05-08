@@ -138,9 +138,9 @@ class GridWorld4x4:
             stri += "\n"
         print(stri)
 
-    def choose_action(self, Q,etat,espace,epsilon):
+    def choose_action(self, q_table,etat,espace,epsilon):
         print(espace)
-        a_opt=np.argmax(secure_random.shuffle(Q[etat]))
+        a_opt=np.argmax(secure_random.shuffle(q_table[etat]))
         if (secure_random.random() > epsilon):
             return int(a_opt)
         else:
@@ -150,8 +150,8 @@ class GridWorld4x4:
             return action[0]
     
     def q_learning(self,states_n,actions_n, beta, epsilon, num_episodes):
-        ' Tableau Q(s,a)'
-        Q = np.zeros([states_n, actions_n])
+        ' Tableau q_table(s,a)'
+        q_table = np.zeros([states_n, actions_n])
         ' Tableau N(s,a)'
         N=np.zeros([states_n, actions_n])
 
@@ -166,27 +166,27 @@ class GridWorld4x4:
             cumul_reward = 0
             d = False
             while True:
-                obsC=states
-                #print("Etat courant",obsC)
-                a= grid.choose_action( Q,obsC,actions_list,epsilon)
+                obs_c=states
+                #print("Etat courant",obs_c)
+                a= grid.choose_action( q_table,obs_c,actions_list,epsilon)
                 #print("action",a)
                 #print("Etat suivant",observation)
 
                 s1, reward, d, _ = grid.move(a)
 
                 ' mise a jour alpha'
-                N[obsC,a]=int(N[obsC,a]+1)
-                alpha=1/N[obsC,a]
+                N[obs_c,a]=int(N[obs_c,a]+1)
+                alpha=1/N[obs_c,a]
                 ' recuperation action optimale'
-                a_opt=np.argmax(Q[obsC])
+                a_opt=np.argmax(q_table[obs_c])
                 #print("action Optimale",a_opt)
-                ' mise a jour Q table'
-                Q[obsC,a]=(1-alpha)*Q[obsC,a]+ alpha*(reward +beta*Q[s1,a_opt])
+                ' mise a jour q_table table'
+                q_table[obs_c,a]=(1-alpha)*q_table[obs_c,a]+ alpha*(reward +beta*q_table[s1,a_opt])
                 
                 # # probability to take a random action
-                # Q2 = Q[s,:] + np.random.randn(1, actions_n)*(1. / (i +1))
+                # Q2 = q_table[s,:] + np.random.randn(1, actions_n)*(1. / (i +1))
                 # a = np.argmax(Q2)
-                # Q[s, a] = Q[s, a] + lr*(reward + y * np.max(Q[s1,:]) - Q[s, a]) # Fonction de mise à jour de la Q-table
+                # q_table[s, a] = q_table[s, a] + lr*(reward + y * np.max(q_table[s1,:]) - q_table[s, a]) # Fonction de mise à jour de la q_table-table
 
                 cumul_reward += reward
                 s = s1
@@ -197,15 +197,15 @@ class GridWorld4x4:
             states_list.append(states)
             actions_list.append(actions)
             cumul_reward_list.append(cumul_reward)
-            print(Q)
+            print(q_table)
 
             print("Construction de la politique")
             pi=np.zeros(states_n)
 
             for i in range(states_n):
-                pi[i]=int(np.argmax(Q[i]))
+                pi[i]=int(np.argmax(q_table[i]))
 
             print("politique=",pi)    
         grid.reset()
         grid.print()
-        return Q, cumul_reward_list
+        return q_table, cumul_reward_list
