@@ -14,10 +14,8 @@ class sarsa():
                 max_episode_steps=100,
                 reward_threshold=0.74,  
             )
-            self.env = gym.make("GridWorld-v0")
-        else:
-            self.env = gym.make(environnement)
-
+            
+        self.env = gym.make(environnement)
         #Defining the different parameters
         self.epsilon = epsilon
         self.total_episodes = total_episodes

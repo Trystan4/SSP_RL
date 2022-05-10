@@ -14,13 +14,11 @@ class Qlearning():
             #Building the environment, optimum reward_t = 0.74
             register(
                 id=environnement,
-                entry_point="all_envs.gym_gridworld:GridWorld",
+                entry_point="all_envs.gym_gridworld:GridEnv",
                 max_episode_steps=100,
                 reward_threshold=0.74,  
             )
-            self.envrion = gym.make("GridWorld-v0")
-        else:
-            self.environ = gym.make(environnement)
+        self.environ = gym.make(environnement)
         self.beta = beta
         self.epsilon = epsilon
         self.max_e = max_episodes

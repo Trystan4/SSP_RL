@@ -7,8 +7,6 @@
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Trystan4_SSP_RL&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=Trystan4_SSP_RL)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Trystan4_SSP_RL&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Trystan4_SSP_RL)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Trystan4_SSP_RL&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Trystan4_SSP_RL)
-[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-orange.svg)](https://sonarcloud.io/summary/new_code?id=Trystan4_SSP_RL)
-
 
 This is a repository related to the Stochastic Shortest Path Problem and its resolutions through the use of RL algorithms (with gym envs).
 
@@ -18,15 +16,17 @@ The goal is to create a simple benchmark implementing several algorithms, which 
 
 Reproduce Gym Env for a 4x4 (or 8x8) GridWorld with all the particularities of a gym environment.
 
+This is a simple GridWorld whose goal is to go from the beginning to the arrival through the paths without being blocked by the walls.
+
 ## Algorithms
 
 Here are all the algorithms planned with the envs that can be used for now (FrozenLake mean that all implemented gym type environments work).
 
-Sarsa : Grid ✘ - FrozenLake ✔  
-Q Learning : Grid ✘ - FrozenLake  ✔  
-Reinforce : Grid ✘ - FrozenLake ✘  
-DQN : Grid ✘ - FrozenLake ✔  
-MDP : Grid ✘ - FrozenLake ✘  
+Sarsa : GridWorld ✔ - FrozenLake ✔  
+Q Learning : GridWorld ✔ - FrozenLake  ✔  
+Reinforce : GridWorld ✘ - FrozenLake ✘  
+DQN : GridWorld ✔ - FrozenLake ✔  
+MDP : (Comparison arrives soon)
 
 ## Benchmark
 
@@ -37,7 +37,3 @@ git clone https://github.com/Trystan4/SSP_RL.git
 cd SSP_RL
 py main.py
 ```
-
-## Comparison
-
-will arrive later !

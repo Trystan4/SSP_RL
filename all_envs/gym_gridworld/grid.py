@@ -1,10 +1,9 @@
 from contextlib import closing
 from io import StringIO
-from os import path
-from typing import Optional
 import numpy as np
-from gym import Env, spaces, utils
-from all_envs.utils import categorical_sample
+from gym import utils
+from gym.envs.toy_text import discrete
+import sys
 
 LEFT = 0
 DOWN = 1
@@ -68,9 +67,9 @@ def generate_random_map(size=8, p=0.8):
         valid = is_valid(res)
     return ["".join(x) for x in res]
 
-class GridEnv(Env):
+class GridEnv(discrete.DiscreteEnv):
 
-    metadata = {"render_modes": ["human", "ansi", "rgb_array"], "render_fps": 4}
+    metadata = {"render.modes": ["human", "ansi"]}
 
     def __init__(self, desc=None, map_name="4x4", is_slippery=True):
         if desc is None and map_name is None:
@@ -85,10 +84,10 @@ class GridEnv(Env):
         n_a = 4
         n_s = nrow * ncol
 
-        self.initial_state_distrib = np.array(desc == b"S").astype("float64").ravel()
-        self.initial_state_distrib /= self.initial_state_distrib.sum()
+        isd = np.array(desc == b"S").astype("float64").ravel()
+        isd /= isd.sum()
 
-        self.P = {s: {a: [] for a in range(n_a)} for s in range(n_s)}
+        P = {s: {a: [] for a in range(n_a)} for s in range(n_s)}
 
         def to_s(row, col):
             return row * ncol + col
@@ -116,7 +115,7 @@ class GridEnv(Env):
             for col in range(ncol):
                 s = to_s(row, col)
                 for a in range(4):
-                    li = self.P[s][a]
+                    li = P[s][a]
                     letter = desc[row, col]
                     if letter in b"GW":
                         li.append((1.0, s, 0, True))
@@ -129,75 +128,24 @@ class GridEnv(Env):
                         else:
                             li.append((1.0, *update_probability_matrix(row, col, a)))
 
-        self.observation_space = spaces.Discrete(n_s)
-        self.action_space = spaces.Discrete(n_a)
+        super(GridEnv, self).__init__(n_s, n_a, P, isd)
 
-        # pygame utils
-        self.window_size = (min(64 * ncol, 512), min(64 * nrow, 512))
-        self.window_surface = None
-        self.clock = None
-        self.hole_img = None
-        self.cracked_hole_img = None
-        self.ice_img = None
-        self.elf_images = None
-        self.goal_img = None
-        self.start_img = None
-
-    def step(self, a):
-        transitions = self.P[self.s][a]
-        i = categorical_sample([t[0] for t in transitions], self.np_random)
-        p, s, r, d = transitions[i]
-        self.s = s
-        self.lastaction = a
-        return (int(s), r, d, {"prob": p})
-
-    def reset(
-        self,
-        *,
-        seed: Optional[int] = None,
-        return_info: bool = False,
-        options: Optional[dict] = None,
-    ):
-        super().reset(seed=seed)
-        self.s = categorical_sample(self.initial_state_distrib, self.np_random)
-        self.lastaction = None
-
-        if not return_info:
-            return int(self.s)
-        else:
-            return int(self.s), {"prob": 1}
 
     def render(self, mode="human"):
-        desc = self.desc.tolist()
-        return self._render_text(desc)
-
-    @staticmethod
-    def _center_small_rect(big_rect, small_dims):
-        offset_w = (big_rect[2] - small_dims[0]) / 2
-        offset_h = (big_rect[3] - small_dims[1]) / 2
-        return (
-            big_rect[0] + offset_w,
-            big_rect[1] + offset_h,
-        )
-
-    def _render_text(self, desc):
-        outfile = StringIO()
+        outfile = StringIO() if mode == "ansi" else sys.stdout
 
         row, col = self.s // self.ncol, self.s % self.ncol
+        desc = self.desc.tolist()
         desc = [[c.decode("utf-8") for c in line] for line in desc]
         desc[row][col] = utils.colorize(desc[row][col], "red", highlight=True)
         if self.lastaction is not None:
-            outfile.write(f"  ({['Left', 'Down', 'Right', 'Up'][self.lastaction]})\n")
+            outfile.write(
+                "  ({})\n".format(["Left", "Down", "Right", "Up"][self.lastaction])
+            )
         else:
             outfile.write("\n")
         outfile.write("\n".join("".join(line) for line in desc) + "\n")
 
-        with closing(outfile):
-            return outfile.getvalue()
-
-    def close(self):
-        if self.window_surface is not None:
-            import pygame
-
-            pygame.display.quit()
-            pygame.quit()
+        if mode != "human":
+            with closing(outfile):
+                return outfile.getvalue()

@@ -6,6 +6,7 @@ import sys
 
 from benchmark.algorithms.q_learning import grid_qlearning
 from benchmark.algorithms.sarsa import grid_sarsa_v1
+from benchmark.algorithms.dqn import grid_dqn
 
 NOT_IMPLEMENTED = "pas encore implémenté"
 environnement = {
@@ -21,7 +22,7 @@ def main():
     print("Quel(s) algorithmes voulez vous lancer?")
     algo = input("0: Qlearning \n1: Sarsa \n2: DQN \n3: Reinforce\n")
     
-    if(int(algo) == 0) :
+    if(int(algo) == 0 or int(algo) == -1) :
         beta = float(input("Variable bêta :\n"))  # often 0.5
         epsilon = float(input("Variable epsilon :\n")) # often 0.5
         max_episodes = int(input("Combien de fois voulez vous lancer l'environnement?\n"))
@@ -35,7 +36,7 @@ def main():
         plt.plot(rewards)
         plt.show()
         
-    elif(int(algo) == 1):
+    elif(int(algo) == 1 or int(algo) == -1):
         total_episodes = int(input("Combien de fois voulez vous lancer l'environnement?\n"))
         max_steps = int(input("Maximum d'actions par épisode : (max 100)\n"))
         epsilon = float(input("Variable epsilon :\n")) # often 0.9
@@ -52,9 +53,11 @@ def main():
         plt.plot(rewards)
         plt.show()
         
-    elif(int(algo) == 2):
-        print(NOT_IMPLEMENTED)
-    elif(int(algo) == 3):
+    elif(int(algo) == 2 or int(algo) == -1):
+        total_episodes = int(input("Combien de fois voulez vous lancer l'environnement?\n"))
+        dqn_algo = grid_dqn.dqn(environnement, total_episodes)
+        dqn_algo.algorithm()
+    elif(int(algo) == 3 or int(algo) == -1):
         print(NOT_IMPLEMENTED)
     else:
         print("algorithme non valable")
