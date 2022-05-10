@@ -21,11 +21,11 @@ def main():
     
     print("Quel(s) algorithmes voulez vous lancer?")
     algo = input("0: Qlearning \n1: Sarsa \n2: DQN \n3: Reinforce\n")
-    
+    max_episodes = int(input("Combien de fois voulez vous lancer l'environnement?\n"))
     if(int(algo) == 0 or int(algo) == -1) :
-        beta = float(input("Variable bêta :\n"))  # often 0.5
-        epsilon = float(input("Variable epsilon :\n")) # often 0.5
-        max_episodes = int(input("Combien de fois voulez vous lancer l'environnement?\n"))
+        beta = float(input("Variable bêta (0.5) :\n"))  # often 0.5
+        epsilon = float(input("Variable epsilon (0.5) :\n")) # often 0.5
+        
         
         qln_algo = grid_qlearning.Qlearning(environnement[choice_env], beta, epsilon, max_episodes)
         q_table, pi, rewards = qln_algo.algorithm()
@@ -36,14 +36,13 @@ def main():
         plt.plot(rewards)
         plt.show()
         
-    elif(int(algo) == 1 or int(algo) == -1):
-        total_episodes = int(input("Combien de fois voulez vous lancer l'environnement?\n"))
+    elif(int(algo) == 1 or int(algo) == -1): # SARSA
         max_steps = int(input("Maximum d'actions par épisode : (max 100)\n"))
-        epsilon = float(input("Variable epsilon :\n")) # often 0.9
-        alpha = float(input("Variable alpha :\n")) # often 0.85
-        gamma = float(input("Variable gamma :\n")) # often 0.95
+        epsilon = float(input("Variable epsilon (0.9) :\n")) # often 0.9
+        alpha = float(input("Variable alpha (0.85) :\n")) # often 0.85
+        gamma = float(input("Variable gamma (0.95) :\n")) # often 0.95
         
-        sarsa_algo = grid_sarsa_v1.sarsa(environnement[choice_env], epsilon, total_episodes, max_steps, alpha, gamma )
+        sarsa_algo = grid_sarsa_v1.sarsa(environnement[choice_env], epsilon, max_episodes, max_steps, alpha, gamma )
         q_table, performance, rewards = sarsa_algo.algorithm()
         
         #Visualizing the Q-matrix
@@ -53,11 +52,11 @@ def main():
         plt.plot(rewards)
         plt.show()
         
-    elif(int(algo) == 2 or int(algo) == -1):
-        total_episodes = int(input("Combien de fois voulez vous lancer l'environnement?\n"))
-        dqn_algo = grid_dqn.dqn(environnement, total_episodes)
+    elif(int(algo) == 2 or int(algo) == -1): # Deep Q Learning
+        dqn_algo = grid_dqn.dqn(environnement, max_episodes)
         dqn_algo.algorithm()
-    elif(int(algo) == 3 or int(algo) == -1):
+        
+    elif(int(algo) == 3 or int(algo) == -1): # Reinforce
         print(NOT_IMPLEMENTED)
     else:
         print("algorithme non valable")
