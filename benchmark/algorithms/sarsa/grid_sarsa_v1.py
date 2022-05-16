@@ -26,6 +26,8 @@ class sarsa():
         #Initializing the Q-matrix
         self.Q = np.zeros((self.env.observation_space.n, self.env.action_space.n))
         
+        #Initializing pi politic
+        self.pi = []
         #Initializing the reward
         self.rewards = []
         
@@ -79,8 +81,11 @@ class sarsa():
                     break
         #Evaluating the performance
         self.perf = self.reward/self.total_episodes
+        
+        for i in range(self.env.observation_space.n):
+            self.pi[i]=int(np.argmax(self.Q[i]))
             
-        return self.Q, self.perf, self.rewards
+        return self.Q, self.perf,self.pi, self.rewards
                 
 
 

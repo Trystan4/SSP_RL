@@ -22,31 +22,31 @@ def main():
     print("Quel(s) algorithmes voulez vous lancer?")
     algo = input("0: Qlearning \n1: Sarsa \n2: DQN \n3: Reinforce\n")
     max_episodes = int(input("Combien de fois voulez vous lancer l'environnement?\n"))
+    epsilon = float(input("Variable epsilon (0.5 q learning / 0.9 sarsa) :\n")) # often 0.5 for QLN and 0.9 for SARSA
+    
     if(int(algo) == 0 or int(algo) == -1) :
         beta = float(input("Variable bêta (0.5) :\n"))  # often 0.5
-        epsilon = float(input("Variable epsilon (0.5) :\n")) # often 0.5
-        
         
         qln_algo = grid_qlearning.Qlearning(environnement[choice_env], beta, epsilon, max_episodes)
-        q_table, pi, rewards = qln_algo.algorithm()
+        q_table, qln_pi, rewards = qln_algo.algorithm()
         
         print("Q table Q Learning :\n", q_table)
-        print("politique = ",pi)
+        print("politique QLN = ",qln_pi)
         
         plt.plot(rewards)
         plt.show()
         
     elif(int(algo) == 1 or int(algo) == -1): # SARSA
         max_steps = int(input("Maximum d'actions par épisode : (max 100)\n"))
-        epsilon = float(input("Variable epsilon (0.9) :\n")) # often 0.9
         alpha = float(input("Variable alpha (0.85) :\n")) # often 0.85
         gamma = float(input("Variable gamma (0.95) :\n")) # often 0.95
         
         sarsa_algo = grid_sarsa_v1.sarsa(environnement[choice_env], epsilon, max_episodes, max_steps, alpha, gamma )
-        q_table, performance, rewards = sarsa_algo.algorithm()
+        q_table, sarsa_pi, performance, rewards = sarsa_algo.algorithm()
         
         #Visualizing the Q-matrix
         print("Q table Sarsa : \n",q_table)
+        print("politique Sarsa = ",sarsa_pi)
         print("Performance :", performance)
         
         plt.plot(rewards)

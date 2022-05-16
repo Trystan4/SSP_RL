@@ -21,9 +21,9 @@ class dqn():
         self.obs = self.env.reset()
         self.episode = 0
         while self.episode < self.total_episodes:
-            action, _states = self.model.predict(obs, deterministic=True)
-            obs, reward, done, info = self.env.step(action)
+            action, _states = self.model.predict(self.obs, deterministic=True)
+            self.obs, self.reward, self.done, info = self.env.step(action)
             self.env.render()
-            if done:
+            if self.done:
                 self.episode +=1
-                obs = self.env.reset()
+                self.obs = self.env.reset()
