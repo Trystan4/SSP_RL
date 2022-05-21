@@ -12,21 +12,21 @@ UP = 3
 """
 S -> start
 P -> path
-W -> wall
+L -> Lava
 G -> goal
 """
 
 MAPS = {
-    "4x4": ["SPPP", "PWPW", "PPPW", "WPPG"],
+    "4x4": ["SPPP", "PLPL", "PPPL", "LPPG"],
     "8x8": [
         "SPPPPPPP",
         "PPPPPPPP",
-        "PPPWPPPP",
-        "PPPPPWPP",
-        "PPPWPPPP",
-        "PWWPPPWP",
-        "PWPPWPWP",
-        "PPPWPPPG",
+        "PPPLPPPP",
+        "PPPPPLPP",
+        "PPPLPPPP",
+        "PLLPPPLP",
+        "PLPPLPLP",
+        "PPPLPPPG",
     ],
 }
 
@@ -55,13 +55,13 @@ def generate_random_map(size=8, p=0.8):
                         continue
                     if res[r_new][c_new] == "G":
                         return True
-                    if res[r_new][c_new] != "W":
+                    if res[r_new][c_new] != "L":
                         frontier.append((r_new, c_new))
         return False
 
     while not valid:
         p = min(1, p)
-        res = np.random.choice(["P", "W"], (size, size), p=[p, 1 - p])
+        res = np.random.choice(["P", "L"], (size, size), p=[p, 1 - p])
         res[0][0] = "S"
         res[-1][-1] = "G"
         valid = is_valid(res)
@@ -76,10 +76,9 @@ class GridEnv(discrete.DiscreteEnv):
             desc = generate_random_map()
         elif desc is None:
             desc = MAPS[map_name]
-            print(desc)
         self.desc = desc = np.asarray(desc, dtype="c")
         self.nrow, self.ncol = nrow, ncol = desc.shape
-        self.reward_range = (0, 1)
+        self.reward_range = (-1, 1)
 
         n_a = 4
         n_s = nrow * ncol
@@ -107,7 +106,7 @@ class GridEnv(discrete.DiscreteEnv):
             newrow, newcol = inc(row, col, action)
             newstate = to_s(newrow, newcol)
             newletter = desc[newrow, newcol]
-            done = bytes(newletter) in b"GW"
+            done = bytes(newletter) in b"GL"
             reward = float(newletter == b"G")
             return newstate, reward, done
 

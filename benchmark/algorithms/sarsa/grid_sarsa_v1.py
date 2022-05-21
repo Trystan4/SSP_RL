@@ -10,7 +10,7 @@ class sarsa():
             #Building the environment, optimum reward_t = 0.74
             register(
                 id=environnement,
-                entry_point="all_envs.gym_gridworld:Gridworld",
+                entry_point="all_envs.gym_gridworld:GridEnv",
                 max_episode_steps=100,
                 reward_threshold=0.74,  
             )
@@ -27,9 +27,10 @@ class sarsa():
         self.Q = np.zeros((self.env.observation_space.n, self.env.action_space.n))
         
         #Initializing pi politic
-        self.pi = []
+        self.pi=np.zeros(self.env.observation_space.n)
         #Initializing the reward
         self.rewards = []
+        self.rewards_by_episode=[]
         
     #Function to choose the next action
     def choose_action(self, state):
@@ -53,10 +54,10 @@ class sarsa():
             self.t = 0
             self.state1 = self.env.reset()
             self.action1 = self.choose_action(self.state1)
-            print("------------------------")
-            print("début episode ", episode)
-            print("------------------------")
-            print("first action",self.action1)
+            # print("------------------------")
+            # print("début episode ", episode)
+            # print("------------------------")
+            # print("first action",self.action1)
             while self.t < self.max_steps: 
                 #Getting next state
                 self.state2, self.reward, done, info = self.env.step(self.action1)
@@ -65,7 +66,7 @@ class sarsa():
                 self.rewards.append(self.reward)
                 #Choosing the next action
                 self.action2 = self.choose_action(self.state2)
-                print("next action", self.action2)
+                # print("next action", self.action2)
                 
                 #Learning Q-value
                 self.update()
@@ -85,9 +86,25 @@ class sarsa():
         for i in range(self.env.observation_space.n):
             self.pi[i]=int(np.argmax(self.Q[i]))
             
-        return self.Q, self.perf,self.pi, self.rewards
+        return self.Q, self.perf,self.pi
                 
-
+    def simulation(self):
+        self.episode = 0
+        while (self.episode < self.total_episodes):
+            observation=self.env.reset()
+            termine=False
+            self.episode=self.episode+1
+            # print("debut episode ",self.episode)
+            while (not termine):
+                the_reward = 0
+                for i in range(self.env.observation_space.n):
+                    #print("Etat courant",obs_c)
+                    a = int(self.pi[i])
+                    (observation,gain,termine,debug)=self.env.step(a)
+                    the_reward = the_reward + gain
+            self.rewards_by_episode.insert(self.episode, the_reward)
+        
+        return self.rewards_by_episode
 
 
 

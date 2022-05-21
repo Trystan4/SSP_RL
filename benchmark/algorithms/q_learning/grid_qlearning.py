@@ -29,7 +29,7 @@ class Qlearning():
         self.Q=np.zeros((self.environ.observation_space.n,self.environ.action_space.n))
         ' Tableau N(s,a)'
         self.N=np.zeros((self.environ.observation_space.n,self.environ.action_space.n))
-        self.rewards=[]
+        self.rewards_by_episode=[]
         self.episode=0
         
     def choose_action(self, etat):
@@ -47,12 +47,12 @@ class Qlearning():
             observation=self.environ.reset()
             termine=False
             self.episode=self.episode+1
-            print("debut episode ",self.episode)
+            # print("debut episode ",self.episode)
             while (not termine):
                 obs_c=observation
                 #print("Etat courant",obs_c)
                 a=self.choose_action(obs_c)
-                print("action",a)
+                # print("action",a)
                 (observation,gain,termine,debug)=self.environ.step(a)
                 #print("Etat suivant",observation)
                 ' mise a jour alpha'
@@ -64,15 +64,32 @@ class Qlearning():
                 ' mise a jour Q table'
                 self.Q[obs_c,a]=(1-alpha)*self.Q[obs_c,a]+ alpha*(gain +self.beta*self.Q[observation,a_opt])
                 
-                # tableau des gains au fur et à mesure des épisodes
-                self.rewards.append(gain)
+
             #print("fin de l'episode",episode)
-        print("fin de la simulation")
+        # print("fin de la simulation de l'algorithme")
         
-        print("Construction de la politique")
+        # print("Construction de la politique")
         self.pi=np.zeros(self.environ.observation_space.n)
 
         for i in range(self.environ.observation_space.n):
             self.pi[i]=int(np.argmax(self.Q[i]))
 
-        return self.Q, self.pi, self.rewards
+        return self.Q, self.pi
+    
+    def simulation(self):
+        self.episode = 0
+        while (self.episode < self.max_e):
+            observation=self.environ.reset()
+            termine=False
+            self.episode=self.episode+1
+            # print("debut episode ",self.episode)
+            while (not termine):
+                the_reward = 0
+                for i in range(self.environ.observation_space.n):
+                    #print("Etat courant",obs_c)
+                    a = int(self.pi[i])
+                    (observation,gain,termine,debug)=self.environ.step(a)
+                    the_reward = the_reward + gain
+            self.rewards_by_episode.insert(self.episode, the_reward)
+        
+        return self.rewards_by_episode

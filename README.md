@@ -18,6 +18,23 @@ Reproduce Gym Env for a 4x4 (or 8x8) GridWorld with all the particularities of a
 
 This is a simple GridWorld whose goal is to go from the beginning to the arrival through the paths without being blocked by the walls.
 
+S -> start
+P -> path
+L -> Lava
+G -> goal
+
+"4x4": ["SPPP", "PLPL", "PPPL", "LPPG"],
+    "8x8": [
+        "SPPPPPPP",
+        "PPPPPPPP",
+        "PPPLPPPP",
+        "PPPPPLPP",
+        "PPPLPPPP",
+        "PLLPPPLP",
+        "PLPPLPLP",
+        "PPPLPPPG",
+    ],
+
 ## Algorithms
 
 Here are all the algorithms planned with the envs that can be used for now (FrozenLake mean that all implemented gym type environments work).
