@@ -86,7 +86,7 @@ class sarsa():
         for i in range(self.env.observation_space.n):
             self.pi[i]=int(np.argmax(self.Q[i]))
             
-        return self.Q, self.perf,self.pi
+        return self.Q, self.pi, self.perf
                 
     def simulation(self):
         self.episode = 0
@@ -102,7 +102,7 @@ class sarsa():
                     a = int(self.pi[i])
                     (observation,gain,termine,debug)=self.env.step(a)
                     the_reward = the_reward + gain
-            self.rewards_by_episode.insert(self.episode, the_reward)
+            self.rewards_by_episode.append(the_reward)
         
         return self.rewards_by_episode
 

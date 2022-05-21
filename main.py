@@ -26,6 +26,7 @@ def main():
     max_episodes = int(input("Combien de fois voulez vous lancer l'environnement?\n"))
     epsilon = float(input("Variable epsilon (0.5 q learning / 0.9 sarsa) :\n")) # often 0.5 for QLN and 0.9 for SARSA
     
+    nb_ep = [ i for i in range(max_episodes) ]
     if(int(algo) == 0 or int(algo) == -1) :
         beta = float(input("Variable bêta (0.5) :\n"))  # often 0.5
         
@@ -35,9 +36,14 @@ def main():
         print("Q table Q Learning :\n", q_table)
         print("politique QLN = ",qln_pi)
         
-        plt.plot(q_rewards_episode)
+        plt.scatter(nb_ep[-10:], q_rewards_episode[-10:])
         plt.savefig("Q_Learning_rewards")
         
+        print("Simulation QLN ----")
+        print("Nombre de 1 : ",q_rewards_episode.count(1))
+        print("Nombre de 0 : ",q_rewards_episode.count(0))
+        print("Performance simulaion : ",sum(q_rewards_episode)/max_episodes)
+    
     if(int(algo) == 1 or int(algo) == -1): # SARSA
         max_steps = int(input("Maximum d'actions par épisode : (max 100)\n"))
         alpha = float(input("Variable alpha (0.85) :\n")) # often 0.85
@@ -48,17 +54,24 @@ def main():
         sarsa_rewards_epsiode = sarsa_algo.simulation()
         #Visualizing the Q-matrix
         print("Q table Sarsa : \n",q_table)
-        print("politique Sarsa = ",sarsa_pi)
+        print("politique Sarsa : ",sarsa_pi)
         print("Performance :", performance)
         
-        plt.plot(sarsa_rewards_epsiode)
+        plt.scatter(nb_ep[-10:], sarsa_rewards_epsiode[-10:])
         plt.savefig("SARSA_rewards")
+        
+        print("Simulation SARSA ----")
+        print("Nombre de 1 : ",sarsa_rewards_epsiode.count(1))
+        print("Nombre de 0 : ", sarsa_rewards_epsiode.count(0))
+        print("Performance simulaion : ",sum(sarsa_rewards_epsiode)/max_episodes)
         
     if(int(algo) == 2 or int(algo) == -1): # Deep Q Learning
         dqn_algo = grid_dqn.dqn(environnement[choice_env], max_episodes)
         dqn_rewards_episode, name = dqn_algo.algorithm()
-        plt.plot(dqn_rewards_episode)
+        
+        plt.scatter(nb_ep[-10:], dqn_rewards_episode[-10:])
         plt.savefig("DQN_rewards")
+        
         zip_n = name + ".zip"
         with zipfile.ZipFile(zip_n,"r") as zip_ref:
             zip_ref.extractall(name)
@@ -72,10 +85,16 @@ def main():
         torch_var = torch.load(path_v,  map_location=device )
         
         print(policy, policy_opt, torch_var)
+        
+        print("Simulation DQN ----")
+        print("Nombre de 1 : ",dqn_rewards_episode.count(1))
+        print("Nombre de 0 : ",dqn_rewards_episode.count(0))
+        print("Performance simulaion : ",sum(dqn_rewards_episode)/max_episodes)
     if(int(algo) == 3 or int(algo) == -1): # Reinforce
         print(NOT_IMPLEMENTED)
     elif(int(algo) < -1 or int(algo) > 4):
         print("algorithme non valable")
+        
         
     return 0
 

@@ -26,15 +26,15 @@ class dqn():
         
 
     def algorithm(self):
-        total_r = 0
         del self.model # remove to demonstrate saving and loading
         self.model = DQN.load(self.name)
         self.obs = self.env.reset()
         self.episode = 0
         while self.episode < self.total_episodes:
+            total_r = 0
             action, _states = self.model.predict(self.obs, deterministic=True)
             self.obs, reward, self.done, info = self.env.step(action)
-            total_r += reward
+            total_r = total_r + reward
 
             if self.done:
                 self.rewards_episode.append(total_r)
