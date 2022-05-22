@@ -98,11 +98,11 @@ def main():
         for j in range(max_epoch):
             tmp1 = time.time()
             sarsa_rewards_epsiode = sarsa_algo.simulation()
-            sarsa_perf_list.insert(j, sum(q_rewards_episode)/max_episodes)
+            sarsa_perf_list.insert(j, sum(sarsa_rewards_epsiode)/max_episodes)
             tmp2 = time.time()
             sarsa_perf_timer.insert(j, tmp2 - tmp1)
-            if(i%10 == 1) :
-                print("Génération : " + str(j) + " Performance : " + str(sarsa_perf_list[i]) + " Temps de simulation : " + str(sarsa_perf_timer[i]))
+            if(j%10 == 1) :
+                print("Génération : " + str(j) + " Performance : " + str(sarsa_perf_list[j]) + " Temps de simulation : " + str(sarsa_perf_timer[j]))
         
         tmp_final = time.time()
         print("Temps de calcul final : ", tmp_final - tmp0)
