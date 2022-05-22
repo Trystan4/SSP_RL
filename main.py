@@ -68,11 +68,17 @@ def main():
         plt.plot(nb_simu, q_perf_timer, label="Temps de chaque simulation en secondes")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\qln", "QLN_timer.png"))
         
+        plt.clf()
+        
         plt.plot(nb_simu, q_perf_list, label="Moyenne des performances des épisodes par simulation")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\qln", "QLN_performances.png"))
         
+        plt.clf()
+                
         plt.scatter(nb_ep[-10:], q_rewards_episode[-10:])
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\qln", "QLN_rewards.png"))
+        
+        plt.clf()
     
     if(int(algo) == 1 or int(algo) == -1): # SARSA
         max_steps = int(input("Maximum d'actions par épisode : (max 100)\n"))
@@ -105,12 +111,17 @@ def main():
         plt.plot(nb_simu,sarsa_perf_timer, label="Temps de chaque simulation en secondes")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\sarsa", "SARSA_timer"))
         
+        plt.clf()
+        
         plt.plot(nb_simu, sarsa_perf_list, label="Moyenne des performances des épisodes par simulation")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\sarsa", "SARSA_performances"))
 
+        plt.clf()
+        
         plt.scatter(nb_ep[-10:], sarsa_rewards_epsiode[-10:])
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\sarsa", "SARSA_rewards"))
         
+        plt.clf()
         
     if(int(algo) == 2 or int(algo) == -1): # Deep Q Learning
         dqn_algo = grid_dqn.dqn(environnement[choice_env], max_episodes)
