@@ -509,6 +509,12 @@ class feedbackSolutionMDP(solutionMDP):
     __swig_destroy__ = _pyMarmoteMDP.delete_feedbackSolutionMDP
     __del__ = lambda self: None
 
+    def initVectors(self, s):
+        return _pyMarmoteMDP.feedbackSolutionMDP_initVectors(self, s)
+
+    def setIndAvg(self, b):
+        return _pyMarmoteMDP.feedbackSolutionMDP_setIndAvg(self, b)
+
     def setAction(self, a):
         return _pyMarmoteMDP.feedbackSolutionMDP_setAction(self, a)
 
@@ -529,6 +535,12 @@ class feedbackSolutionMDP(solutionMDP):
 
     def getValueIndex(self, indice):
         return _pyMarmoteMDP.feedbackSolutionMDP_getValueIndex(self, indice)
+
+    def setAvgCost(self, avg):
+        return _pyMarmoteMDP.feedbackSolutionMDP_setAvgCost(self, avg)
+
+    def getAvgCost(self):
+        return _pyMarmoteMDP.feedbackSolutionMDP_getAvgCost(self)
 
     def writeSolution(self):
         return _pyMarmoteMDP.feedbackSolutionMDP_writeSolution(self)
@@ -602,6 +614,12 @@ class nonStationarySolutionMDP(solutionMDP):
 
     def writeSolutionByDim(self, d, set):
         return _pyMarmoteMDP.nonStationarySolutionMDP_writeSolutionByDim(self, d, set)
+
+    def writeSolutionAtStep(self, s):
+        return _pyMarmoteMDP.nonStationarySolutionMDP_writeSolutionAtStep(self, s)
+
+    def writeSolutionAtStepByDim(self, s, d, set):
+        return _pyMarmoteMDP.nonStationarySolutionMDP_writeSolutionAtStepByDim(self, s, d, set)
 nonStationarySolutionMDP_swigregister = _pyMarmoteMDP.nonStationarySolutionMDP_swigregister
 nonStationarySolutionMDP_swigregister(nonStationarySolutionMDP)
 
@@ -904,9 +922,6 @@ class averageMDP(genericMDP):
     def policyIterationModifiedAA(self, epsilon, maxIter, delta, maxInIter):
         return _pyMarmoteMDP.averageMDP_policyIterationModifiedAA(self, epsilon, maxIter, delta, maxInIter)
 
-    def valueIterationMC(self, epsilon, maxIter):
-        return _pyMarmoteMDP.averageMDP_valueIterationMC(self, epsilon, maxIter)
-
     def getChain(self, policy):
         return _pyMarmoteMDP.averageMDP_getChain(self, policy)
 averageMDP_swigregister = _pyMarmoteMDP.averageMDP_swigregister
@@ -1026,8 +1041,8 @@ class structuralPropertiesPol(_object):
     def sSPol(self, *args):
         return _pyMarmoteMDP.structuralPropertiesPol_sSPol(self, *args)
 
-    def sSPolbyDim(self, *args):
-        return _pyMarmoteMDP.structuralPropertiesPol_sSPolbyDim(self, *args)
+    def sSPolByDim(self, *args):
+        return _pyMarmoteMDP.structuralPropertiesPol_sSPolByDim(self, *args)
 structuralPropertiesPol_swigregister = _pyMarmoteMDP.structuralPropertiesPol_swigregister
 structuralPropertiesPol_swigregister(structuralPropertiesPol)
 
@@ -1053,11 +1068,11 @@ class structuralPropertiesVF(_object):
     def monotonicityVFByDim(self, *args):
         return _pyMarmoteMDP.structuralPropertiesVF_monotonicityVFByDim(self, *args)
 
-    def monotonicityCX(self, solution):
-        return _pyMarmoteMDP.structuralPropertiesVF_monotonicityCX(self, solution)
+    def monotonicityCX(self, *args):
+        return _pyMarmoteMDP.structuralPropertiesVF_monotonicityCX(self, *args)
 
-    def monotonicityCXbyDim(self, solution, dim):
-        return _pyMarmoteMDP.structuralPropertiesVF_monotonicityCXbyDim(self, solution, dim)
+    def monotonicityCXByDim(self, *args):
+        return _pyMarmoteMDP.structuralPropertiesVF_monotonicityCXByDim(self, *args)
 structuralPropertiesVF_swigregister = _pyMarmoteMDP.structuralPropertiesVF_swigregister
 structuralPropertiesVF_swigregister(structuralPropertiesVF)
 

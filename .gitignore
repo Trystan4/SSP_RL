@@ -130,3 +130,6 @@ dmypy.json
 
 # DQN results
 *.zip
+
+# Test / do not push
+test.py

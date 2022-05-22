@@ -89,19 +89,18 @@ class sarsa():
         return self.Q, self.pi, self.perf
                 
     def simulation(self):
+        self.rewards_by_episode = []
         self.episode = 0
         while (self.episode < self.total_episodes):
             observation=self.env.reset()
             termine=False
             self.episode=self.episode+1
             # print("debut episode ",self.episode)
+            the_reward = 0
             while (not termine):
-                the_reward = 0
-                for i in range(self.env.observation_space.n):
-                    #print("Etat courant",obs_c)
-                    a = int(self.pi[i])
-                    (observation,gain,termine,debug)=self.env.step(a)
-                    the_reward = the_reward + gain
+                a = int(self.pi[observation])
+                (observation,gain,termine,debug)=self.env.step(a)
+                the_reward = the_reward + gain
             self.rewards_by_episode.append(the_reward)
         
         return self.rewards_by_episode

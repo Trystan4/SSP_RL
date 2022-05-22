@@ -78,7 +78,7 @@ class GridEnv(discrete.DiscreteEnv):
             desc = MAPS[map_name]
         self.desc = desc = np.asarray(desc, dtype="c")
         self.nrow, self.ncol = nrow, ncol = desc.shape
-        self.reward_range = (-1, 1)
+        self.reward_range = (0, 1)
 
         n_a = 4
         n_s = nrow * ncol

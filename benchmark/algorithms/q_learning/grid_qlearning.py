@@ -1,3 +1,4 @@
+from os import environ
 import gym
 import numpy as np
 from gym.envs.registration import register
@@ -77,19 +78,20 @@ class Qlearning():
         return self.Q, self.pi
     
     def simulation(self):
+        self.rewards_by_episode = []
         self.episode = 0
         while (self.episode < self.max_e):
             observation=self.environ.reset()
             termine=False
             self.episode=self.episode+1
             # print("debut episode ",self.episode)
+            the_reward = 0
             while (not termine):
-                the_reward = 0
-                for i in range(self.environ.observation_space.n):
-                    #print("Etat courant",obs_c)
-                    a = int(self.pi[i])
-                    (observation,gain,termine,debug)=self.environ.step(a)
-                    the_reward = the_reward + gain
+                #print("Etat courant",obs_c)
+                a = int(self.pi[observation])
+                (observation,gain,termine,debug)=self.environ.step(a)
+                the_reward = the_reward + gain
+
             self.rewards_by_episode.insert(self.episode, the_reward)
         
         return self.rewards_by_episode
