@@ -13,7 +13,7 @@ from benchmark.algorithms.sarsa import grid_sarsa_v1
 from benchmark.algorithms.dqn import grid_dqn
 
 NOT_IMPLEMENTED = "pas encore implémenté"
-URL_SAVING_FIGURES = "C:\\Users\\tryst\Memoire\\SSP_RL\\comparison_figures\\"
+URL_SAVING_FIGURES = os.path.abspath("comparison_figures")
 environnement = {
     0 : "GridWorld-v0",
     1 : "FrozenLake-v1",
@@ -52,23 +52,23 @@ def main():
         for i in range(100):
             tmp1 = time.time()
             q_rewards_episode = qln_algo.simulation()
-            q_perf_list.insert(i, sum(q_rewards_episode)/max_episodes)
+            q_perf_list.append(sum(q_rewards_episode)/max_episodes)
             tmp2 = time.time()
-            q_perf_timer.insert(i, tmp2 - tmp1)
+            q_perf_timer.append(tmp2 - tmp1)
             if(i%10 == 1) :
                 print("Génération : " + str(i) + " Performance : " + str(q_perf_list[i]) + " Temps de simulation : " + str(q_perf_timer[i]))
         
         tmp_final = time.time()
         print("Temps de calcul final : ", tmp_final - tmp0)
-        
+        print("Moyenne de toute les epochs : ", sum(q_perf_list)/100)
         plt.scatter(nb_ep[-10:], q_rewards_episode[-10:])
-        plt.savefig(URL_SAVING_FIGURES + "qln\\" + "QLN_rewards.png")
+        plt.savefig(os.path.join(URL_SAVING_FIGURES + "\qln", "QLN_rewards.png"))
         
         plt.plot(q_perf_timer)
-        plt.savefig(URL_SAVING_FIGURES + "qln\\" + "QLN_timer.png")
+        plt.savefig(os.path.join(URL_SAVING_FIGURES + "\qln", "QLN_timer.png"))
         
         plt.plot(q_perf_list)
-        plt.savefig(URL_SAVING_FIGURES + "qln\\" + "QLN_performances.png")
+        plt.savefig(os.path.join(URL_SAVING_FIGURES + "\qln", "QLN_performances.png"))
     
     if(int(algo) == 1 or int(algo) == -1): # SARSA
         max_steps = int(input("Maximum d'actions par épisode : (max 100)\n"))
@@ -98,13 +98,13 @@ def main():
         print("Temps de calcul final : ", tmp_final - tmp0)
         
         plt.plot(sarsa_perf_timer)
-        plt.savefig(URL_SAVING_FIGURES + "sarsa\\" + "SARSA_timer")
+        plt.savefig(os.path.join(URL_SAVING_FIGURES + "\sarsa", "SARSA_timer"))
         
         plt.plot(sarsa_perf_list)
-        plt.savefig(URL_SAVING_FIGURES + "sarsa\\" + "SARSA_performances")
+        plt.savefig(os.path.join(URL_SAVING_FIGURES + "\sarsa", "SARSA_performances"))
 
         plt.scatter(nb_ep[-10:], sarsa_rewards_epsiode[-10:])
-        plt.savefig(URL_SAVING_FIGURES + "sarsa\\" +"SARSA_rewards")
+        plt.savefig(os.path.join(URL_SAVING_FIGURES + "\sarsa", "SARSA_rewards"))
         
         
     if(int(algo) == 2 or int(algo) == -1): # Deep Q Learning
