@@ -35,11 +35,14 @@ def main():
     
     print("Quel(s) algorithmes voulez vous lancer?")
     algo = input("0: Qlearning \n1: Sarsa \n2: DQN \n3: Reinforce\n")
-    max_episodes = int(input("Combien de fois voulez vous lancer l'environnement?\n"))
+    
+    max_episodes = int(input("Pendant combien d'épisodes voulez lancer l'environnement?\n"))
+    max_epoch = int(input("Pendant combien d'epochs voulez vous lancer la simulation?\n"))
+    
     epsilon = float(input("Variable epsilon (0.5 q learning / 0.9 sarsa) :\n")) # often 0.5 for QLN and 0.9 for SARSA
     
     nb_ep = [ i for i in range(max_episodes) ]
-    nb_simu = [i for i in range(100)]
+    nb_simu = [i for i in range(max_epoch)]
     
     if(int(algo) == 0 or int(algo) == -1) :
         beta = float(input("Variable bêta (0.5) :\n"))  # often 0.5
@@ -49,7 +52,7 @@ def main():
         print("Q table Q Learning :\n", q_table)
         print("politique QLN = ",qln_pi)
         tmp0 = time.time()
-        for i in range(100):
+        for i in range(max_epoch):
             tmp1 = time.time()
             q_rewards_episode = qln_algo.simulation()
             q_perf_list.append(sum(q_rewards_episode)/max_episodes)
@@ -60,15 +63,16 @@ def main():
         
         tmp_final = time.time()
         print("Temps de calcul final : ", tmp_final - tmp0)
-        print("Moyenne de toute les epochs : ", sum(q_perf_list)/100)
-        plt.scatter(nb_ep[-10:], q_rewards_episode[-10:])
-        plt.savefig(os.path.join(URL_SAVING_FIGURES + "\qln", "QLN_rewards.png"))
-        
-        plt.plot(q_perf_timer)
+        print("Moyenne de toute les epochs : ", sum(q_perf_list)/max_epoch)
+               
+        plt.plot(nb_simu, q_perf_timer, label="Temps de chaque simulation en secondes")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\qln", "QLN_timer.png"))
         
-        plt.plot(q_perf_list)
+        plt.plot(nb_simu, q_perf_list, label="Moyenne des performances des épisodes par simulation")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\qln", "QLN_performances.png"))
+        
+        plt.scatter(nb_ep[-10:], q_rewards_episode[-10:])
+        plt.savefig(os.path.join(URL_SAVING_FIGURES + "\qln", "QLN_rewards.png"))
     
     if(int(algo) == 1 or int(algo) == -1): # SARSA
         max_steps = int(input("Maximum d'actions par épisode : (max 100)\n"))
@@ -85,7 +89,7 @@ def main():
         
         
         tmp0 = time.time()
-        for j in range(100):
+        for j in range(max_epoch):
             tmp1 = time.time()
             sarsa_rewards_epsiode = sarsa_algo.simulation()
             sarsa_perf_list.insert(j, sum(q_rewards_episode)/max_episodes)
@@ -96,11 +100,12 @@ def main():
         
         tmp_final = time.time()
         print("Temps de calcul final : ", tmp_final - tmp0)
+        print("Moyenne de toute les epochs : ", sum(sarsa_perf_list)/max_epoch)
         
-        plt.plot(sarsa_perf_timer)
+        plt.plot(nb_simu,sarsa_perf_timer, label="Temps de chaque simulation en secondes")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\sarsa", "SARSA_timer"))
         
-        plt.plot(sarsa_perf_list)
+        plt.plot(nb_simu, sarsa_perf_list, label="Moyenne des performances des épisodes par simulation")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\sarsa", "SARSA_performances"))
 
         plt.scatter(nb_ep[-10:], sarsa_rewards_epsiode[-10:])
