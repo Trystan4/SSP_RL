@@ -23,17 +23,7 @@ P -> path
 L -> Lava
 G -> goal
 
-"4x4": ["SPPP", "PLPL", "PPPL", "LPPG"],
-    "8x8": [
-        "SPPPPPPP",
-        "PPPPPPPP",
-        "PPPLPPPP",
-        "PPPPPLPP",
-        "PPPLPPPP",
-        "PLLPPPLP",
-        "PLPPLPLP",
-        "PPPLPPPG",
-    ],
+"4x4": ["SPPP", "PLPL", "PPPL", "LPPG"]
 
 ## Algorithms
 
@@ -52,5 +42,11 @@ You can launch the program by choosing an environment, an algorithm and all the 
 ```Bash
 git clone https://github.com/Trystan4/SSP_RL.git
 cd SSP_RL
+pip install requirements.txt
 py main.py
 ```
+
+The results will appear in two different ways:  
+By the cmd, with the Q table and the π policy for the algorithm as well as the current epoch (every 10 epochs), the average performance for the epoch (depending on the number of episodes) and the simulation time for simulation.
+
+By matplotlib, with 3 graphs, the first on the performance of the agent on each epoch, the second on the environment travel time for each epoch and finally a last one on the last 10 episodes of the last epoch and their rewards.
