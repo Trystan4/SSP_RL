@@ -65,12 +65,18 @@ def main():
         print("Temps de calcul final : ", tmp_final - tmp0)
         print("Moyenne de toute les epochs : ", sum(q_perf_list)/max_epoch)
                
-        plt.plot(nb_simu, q_perf_timer, label="Temps de chaque simulation en secondes")
+        plt.plot(nb_simu, q_perf_timer)
+        plt.xlabel("Nombre d'epochs")
+        plt.ylabel("Temps en secondes")
+        plt.legend("Temps de chaque simulation en secondes pour l'algorithme QLN")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\qln", "QLN_timer.png"))
         
         plt.clf()
         
-        plt.plot(nb_simu, q_perf_list, label="Moyenne des performances des épisodes par simulation")
+        plt.plot(nb_simu, q_perf_list)
+        plt.xlabel("Nombre d'epochs")
+        plt.ylabel("Moyenne des performances sur "+ str(max_episodes) + "épisodes")
+        plt.legend("Graphe de la moyenne des performances des épisodes par simulation pour l'algorithme QLN")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\qln", "QLN_performances.png"))
         
         plt.clf()
@@ -108,12 +114,18 @@ def main():
         print("Temps de calcul final : ", tmp_final - tmp0)
         print("Moyenne de toute les epochs : ", sum(sarsa_perf_list)/max_epoch)
         
-        plt.plot(nb_simu,sarsa_perf_timer, label="Temps de chaque simulation en secondes")
+        plt.plot(nb_simu,sarsa_perf_timer)
+        plt.xlabel("Nombre d'epochs")
+        plt.ylabel("Temps en secondes")
+        plt.legend("Temps de chaque simulation en secondes pour l'algorithme SARSA")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\sarsa", "SARSA_timer"))
         
         plt.clf()
         
-        plt.plot(nb_simu, sarsa_perf_list, label="Moyenne des performances des épisodes par simulation")
+        plt.plot(nb_simu, sarsa_perf_list)
+        plt.xlabel("Nombre d'epochs")
+        plt.ylabel("Moyenne des performances sur "+ str(max_episodes) + "épisodes")
+        plt.legend("Graphe de la moyenne des performances des épisodes par simulation pour l'algorithme SARSA")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\sarsa", "SARSA_performances"))
 
         plt.clf()
