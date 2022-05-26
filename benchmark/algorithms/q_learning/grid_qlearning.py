@@ -91,7 +91,6 @@ class Qlearning():
                 a = int(self.pi[observation])
                 (observation,gain,termine,debug)=self.environ.step(a)
                 the_reward = the_reward + gain
-
             self.rewards_by_episode.insert(self.episode, the_reward)
         
         return self.rewards_by_episode

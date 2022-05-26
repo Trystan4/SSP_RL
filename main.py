@@ -39,7 +39,7 @@ def main():
     max_episodes = int(input("Pendant combien d'épisodes voulez lancer l'environnement?\n"))
     max_epoch = int(input("Pendant combien d'epochs voulez vous lancer la simulation?\n"))
     
-    epsilon = float(input("Variable epsilon (0.5 q learning / 0.9 sarsa) :\n")) # often 0.5 for QLN and 0.9 for SARSA
+    epsilon = float(input("Variable epsilon (0.5 q learning / 0.9 sarsa) :\n"))
     
     nb_ep = [ i for i in range(max_episodes) ]
     nb_simu = [i for i in range(max_epoch)]
@@ -140,7 +140,8 @@ def main():
         dqn_rewards_episode, name = dqn_algo.algorithm()
         
         plt.scatter(nb_ep[-10:], dqn_rewards_episode[-10:])
-        plt.savefig("DQN_rewards")
+        plt.savefig(os.path.join(URL_SAVING_FIGURES + "\dqn","DQN_rewards"))
+        
         
         zip_n = name + ".zip"
         with zipfile.ZipFile(zip_n,"r") as zip_ref:
