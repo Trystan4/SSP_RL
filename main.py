@@ -136,13 +136,46 @@ def main():
         plt.clf()
         
     if(int(algo) == 2 or int(algo) == -1): # Deep Q Learning
-        dqn_algo = grid_dqn.dqn(environnement[choice_env], max_episodes)
-        dqn_rewards_episode, name = dqn_algo.algorithm()
+
+        dqn_algo = grid_dqn.dqn(environnement[choice_env], max_episodes, max_epoch, epsilon)
+        tmp0 = time.time()
+        for w in range(max_epoch):
+            tmp1 = time.time()
+            dqn_rewards_episode, name = dqn_algo.algorithm()
+            dqn_perf_list.insert(w, sum(dqn_rewards_episode)/max_episodes)
+            tmp2 = time.time()
+            dqn_perf_timer.insert(w, tmp2 - tmp1)
+            if(w%10 == 1) :
+                print("Génération : " + str(w) + " Performance : " + str(dqn_perf_list[w]) + " Temps de simulation : " + str(dqn_perf_timer[w]))
         
-        plt.scatter(nb_ep[-10:], dqn_rewards_episode[-10:])
+        tmp_final = time.time()
+        print("Temps de calcul final : ", tmp_final - tmp0)
+        print("Moyenne de toute les epochs : ", sum(dqn_perf_list)/max_epoch)
+        
+        plt.plot(nb_simu,dqn_perf_timer)
+        plt.xlabel("Nombre d'epochs")
+        plt.ylabel("Temps en secondes")
+        plt.legend("Temps de chaque simulation en secondes pour l'algorithme DQN")
+        plt.savefig(os.path.join(URL_SAVING_FIGURES + "\dqn", "DQN_timer"))
+        
+        plt.clf()
+        
+        plt.plot(nb_simu, dqn_perf_list)
+        plt.xlabel("Nombre d'epochs")
+        plt.ylabel("Moyenne des performances sur "+ str(max_episodes) + "épisodes")
+        plt.legend("Graphe de la moyenne des performances des épisodes par simulation pour l'algorithme DQN")
+        plt.savefig(os.path.join(URL_SAVING_FIGURES + "\dqn", "DQN_performances"))
+
+        plt.clf()
+        
+        
+        plt.plot(nb_ep[:10], dqn_rewards_episode[:10])
+        plt.xlabel("Nombre d'épisodes")
+        plt.ylabel("Moyenne des performances sur "+ str(max_episodes) + "épisodes")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\dqn","DQN_rewards"))
-        
-        
+        plt.clf()
+
+            
         zip_n = name + ".zip"
         with zipfile.ZipFile(zip_n,"r") as zip_ref:
             zip_ref.extractall(name)

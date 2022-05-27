@@ -50,3 +50,7 @@ The results will appear in two different ways:
 By the cmd, with the Q table and the π policy for the algorithm as well as the current epoch (every 10 epochs), the average performance for the epoch (depending on the number of episodes) and the simulation time for simulation.
 
 By matplotlib, with 3 graphs, the first on the performance of the agent on each epoch, the second on the environment travel time for each epoch and finally a last one on the last 10 episodes of the last epoch and their rewards.
+
+For DQN, you can see learnings and trainings episodes by putting verbose paramter to 1.
+Rewards analytics appeared with a policy evaluation and simulations (with max episodes and epochs).
+Finaly, you can see other data by unzipping the dqn environnement file (require pytorch to see policy and data objects).
