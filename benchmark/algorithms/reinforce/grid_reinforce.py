@@ -4,6 +4,13 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from PIL import ImageFont, ImageDraw, Image
+import numpy as np
+import cv2
+
+
 DEVICE="cuda:0"
 ACTION_SPACE = [0,1]
 EPISODES = 800
@@ -88,13 +95,6 @@ for episode in range(EPISODES):
     optimizer.step()
 
 
-
-
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-from PIL import ImageFont, ImageDraw, Image
-import numpy as np
-import cv2
 model.eval()
 font                   = cv2.FONT_HERSHEY_SIMPLEX
 bottomLeftCornerOfText = (10,500)

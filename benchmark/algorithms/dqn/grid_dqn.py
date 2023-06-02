@@ -47,4 +47,4 @@ class dqn():
                 total_r = total_r + reward
             self.rewards_episode.append(total_r)
             
-        return self.rewards_episode, self.name;
+        return self.rewards_episode, self.name

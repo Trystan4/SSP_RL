@@ -12,6 +12,16 @@ from benchmark.algorithms.q_learning import grid_qlearning
 from benchmark.algorithms.sarsa import grid_sarsa_v1
 from benchmark.algorithms.dqn import grid_dqn
 
+GENERATION = "Génération : "
+PERFORMANCE = " Performance : "
+SIMULATION_TIME = " Temps de simulation : "
+FINAL_TIME_COMPUT = "Temps de calcul final : "
+EPOCHS_MEAN = "Moyenne de toute les epochs : "
+EPOCHS_NUM = "Nombre d'epochs"
+TIME_SEC = "Temps en secondes"
+PERF_MEAN = "Moyenne des performances sur "
+EPISODES = "épisodes"
+
 NOT_IMPLEMENTED = "pas encore implémenté"
 URL_SAVING_FIGURES = os.path.abspath("comparison_figures")
 environnement = {
@@ -29,7 +39,7 @@ sarsa_perf_timer = []
 dqn_perf_list = []
 dqn_perf_timer = []
 
-def main():
+def parameters_choice():
     print("Quel environnement voulez-vous?")
     choice_env = int(input("0: GridWorld-v0 \n1: FrozenLake-v1 \n2: FrozenLake8x8-v1\n"))
     
@@ -43,7 +53,13 @@ def main():
     
     nb_ep = [ i for i in range(max_episodes) ]
     nb_simu = [i for i in range(max_epoch)]
+    return choice_env, algo, max_episodes, max_epoch, epsilon, nb_ep, nb_simu
+
+
+def main():
     
+    (choice_env, algo, max_episodes, max_epoch, epsilon, nb_ep, nb_simu) = parameters_choice()
+
     if(int(algo) == 0 or int(algo) == -1) :
         beta = float(input("Variable bêta (0.5) :\n"))  # often 0.5
         
@@ -59,23 +75,23 @@ def main():
             tmp2 = time.time()
             q_perf_timer.append(tmp2 - tmp1)
             if(i%10 == 1) :
-                print("Génération : " + str(i) + " Performance : " + str(q_perf_list[i]) + " Temps de simulation : " + str(q_perf_timer[i]))
+                print(GENERATION + str(i) + PERFORMANCE + str(q_perf_list[i]) + SIMULATION_TIME + str(q_perf_timer[i]))
         
         tmp_final = time.time()
-        print("Temps de calcul final : ", tmp_final - tmp0)
-        print("Moyenne de toute les epochs : ", sum(q_perf_list)/max_epoch)
+        print(FINAL_TIME_COMPUT, tmp_final - tmp0)
+        print(EPOCHS_MEAN, sum(q_perf_list)/max_epoch)
                
         plt.plot(nb_simu, q_perf_timer)
-        plt.xlabel("Nombre d'epochs")
-        plt.ylabel("Temps en secondes")
+        plt.xlabel(EPOCHS_NUM)
+        plt.ylabel(TIME_SEC)
         plt.legend("Temps de chaque simulation en secondes pour l'algorithme QLN")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\qln", "QLN_timer.png"))
         
         plt.clf()
         
         plt.plot(nb_simu, q_perf_list)
-        plt.xlabel("Nombre d'epochs")
-        plt.ylabel("Moyenne des performances sur "+ str(max_episodes) + "épisodes")
+        plt.xlabel(EPOCHS_NUM)
+        plt.ylabel(PERF_MEAN+ str(max_episodes) + EPISODES)
         plt.legend("Graphe de la moyenne des performances des épisodes par simulation pour l'algorithme QLN")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\qln", "QLN_performances.png"))
         
@@ -108,23 +124,23 @@ def main():
             tmp2 = time.time()
             sarsa_perf_timer.insert(j, tmp2 - tmp1)
             if(j%10 == 1) :
-                print("Génération : " + str(j) + " Performance : " + str(sarsa_perf_list[j]) + " Temps de simulation : " + str(sarsa_perf_timer[j]))
+                print(GENERATION + str(j) + PERFORMANCE + str(sarsa_perf_list[j]) + SIMULATION_TIME + str(sarsa_perf_timer[j]))
         
         tmp_final = time.time()
-        print("Temps de calcul final : ", tmp_final - tmp0)
-        print("Moyenne de toute les epochs : ", sum(sarsa_perf_list)/max_epoch)
+        print(FINAL_TIME_COMPUT, tmp_final - tmp0)
+        print(EPOCHS_MEAN, sum(sarsa_perf_list)/max_epoch)
         
         plt.plot(nb_simu,sarsa_perf_timer)
-        plt.xlabel("Nombre d'epochs")
-        plt.ylabel("Temps en secondes")
+        plt.xlabel(EPOCHS_NUM)
+        plt.ylabel(TIME_SEC)
         plt.legend("Temps de chaque simulation en secondes pour l'algorithme SARSA")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\sarsa", "SARSA_timer"))
         
         plt.clf()
         
         plt.plot(nb_simu, sarsa_perf_list)
-        plt.xlabel("Nombre d'epochs")
-        plt.ylabel("Moyenne des performances sur "+ str(max_episodes) + "épisodes")
+        plt.xlabel(EPOCHS_NUM)
+        plt.ylabel(PERF_MEAN+ str(max_episodes) + EPISODES)
         plt.legend("Graphe de la moyenne des performances des épisodes par simulation pour l'algorithme SARSA")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\sarsa", "SARSA_performances"))
 
@@ -146,23 +162,23 @@ def main():
             tmp2 = time.time()
             dqn_perf_timer.insert(w, tmp2 - tmp1)
             if(w%10 == 1) :
-                print("Génération : " + str(w) + " Performance : " + str(dqn_perf_list[w]) + " Temps de simulation : " + str(dqn_perf_timer[w]))
+                print(GENERATION + str(w) + PERFORMANCE + str(dqn_perf_list[w]) + SIMULATION_TIME + str(dqn_perf_timer[w]))
         
         tmp_final = time.time()
-        print("Temps de calcul final : ", tmp_final - tmp0)
-        print("Moyenne de toute les epochs : ", sum(dqn_perf_list)/max_epoch)
+        print(FINAL_TIME_COMPUT, tmp_final - tmp0)
+        print(EPOCHS_MEAN, sum(dqn_perf_list)/max_epoch)
         
         plt.plot(nb_simu,dqn_perf_timer)
-        plt.xlabel("Nombre d'epochs")
-        plt.ylabel("Temps en secondes")
+        plt.xlabel(EPOCHS_NUM)
+        plt.ylabel(TIME_SEC)
         plt.legend("Temps de chaque simulation en secondes pour l'algorithme DQN")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\dqn", "DQN_timer"))
         
         plt.clf()
         
         plt.plot(nb_simu, dqn_perf_list)
-        plt.xlabel("Nombre d'epochs")
-        plt.ylabel("Moyenne des performances sur "+ str(max_episodes) + "épisodes")
+        plt.xlabel(EPOCHS_NUM)
+        plt.ylabel(PERF_MEAN+ str(max_episodes) + EPISODES)
         plt.legend("Graphe de la moyenne des performances des épisodes par simulation pour l'algorithme DQN")
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\dqn", "DQN_performances"))
 
@@ -171,7 +187,7 @@ def main():
         
         plt.plot(nb_ep[:10], dqn_rewards_episode[:10])
         plt.xlabel("Nombre d'épisodes")
-        plt.ylabel("Moyenne des performances sur "+ str(max_episodes) + "épisodes")
+        plt.ylabel(PERF_MEAN+ str(max_episodes) + EPISODES)
         plt.savefig(os.path.join(URL_SAVING_FIGURES + "\dqn","DQN_rewards"))
         plt.clf()
 

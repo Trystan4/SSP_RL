@@ -42,7 +42,7 @@ You can launch the program by choosing an environment, an algorithm and all the 
 ```Bash
 git clone https://github.com/Trystan4/SSP_RL.git
 cd SSP_RL
-pip install requirements.txt
+pip install -r ./requirements.txt
 py main.py
 ```
 

@@ -65,11 +65,6 @@ class Qlearning():
                 ' mise a jour Q table'
                 self.Q[obs_c,a]=(1-alpha)*self.Q[obs_c,a]+ alpha*(gain +self.beta*self.Q[observation,a_opt])
                 
-
-            #print("fin de l'episode",episode)
-        # print("fin de la simulation de l'algorithme")
-        
-        # print("Construction de la politique")
         self.pi=np.zeros(self.environ.observation_space.n)
 
         for i in range(self.environ.observation_space.n):
